@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interests — Samyam Pokharel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--night:#050508;--deep:#0a0a10;--card:#0f0f18;--rim:#1c1c2e;--lime:#c8f135;--cyan:#35f1e8;--rose:#f13579;--white:#f0eff5;--muted:#6b6b80;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--night);color:var(--white);font-family:'Syne',sans-serif;overflow-x:hidden;cursor:none;}
+    ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--lime);}
+    #cursor{position:fixed;width:12px;height:12px;background:var(--lime);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:exclusion;transition:width .2s,height .2s;}
+    #cursor-ring{position:fixed;width:40px;height:40px;border:1.5px solid var(--lime);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:exclusion;transition:transform .18s ease,width .25s,height .25s;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:22px 5vw;transition:background .4s,padding .3s;}
+    nav.scrolled{background:rgba(5,5,8,.88);backdrop-filter:blur(18px);padding:14px 5vw;border-bottom:1px solid rgba(200,241,53,.12);}
+    .logo{font-size:18px;font-weight:800;color:var(--white);text-decoration:none;letter-spacing:-.5px;}.logo span{color:var(--lime);}
+    .nav-links{display:flex;gap:4px;list-style:none;}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 14px;border-radius:2px;transition:color .2s,background .2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--lime);background:rgba(200,241,53,.06);}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:none;}
+    .hamburger span{display:block;width:26px;height:2px;background:var(--white);}
+
+    /* PAGE HERO */
+    .page-hero{min-height:50vh;display:flex;flex-direction:column;justify-content:flex-end;padding:140px 5vw 70px;background:var(--deep);position:relative;overflow:hidden;}
+    .page-hero::before{content:'INTERESTS';position:absolute;right:-40px;top:50%;transform:translateY(-50%);font-size:clamp(80px,13vw,180px);font-weight:800;color:rgba(255,255,255,.025);line-height:1;pointer-events:none;letter-spacing:-8px;}
+    .ph-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--lime);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;}
+    .ph-title{font-size:clamp(44px,7vw,90px);font-weight:800;line-height:.92;letter-spacing:-3px;}
+    .ph-title em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--lime);}
+
+    /* TAB SWITCHER */
+    .tabs-bar{display:flex;border-bottom:1px solid var(--rim);background:var(--deep);position:sticky;top:60px;z-index:100;}
+    .tab-btn{
+      padding:20px 32px;background:none;border:none;border-bottom:2px solid transparent;
+      color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;
+      letter-spacing:1px;text-transform:uppercase;cursor:none;
+      transition:color .2s,border-color .2s;
+    }
+    .tab-btn:hover{color:var(--white);}
+    .tab-btn.active{color:var(--lime);border-bottom-color:var(--lime);}
+    .tab-btn[data-tab="mimicry"].active{color:var(--cyan);border-bottom-color:var(--cyan);}
+    .tab-btn[data-tab="coding"].active{color:var(--rose);border-bottom-color:var(--rose);}
+
+    /* PANELS */
+    .int-panel{display:none;padding:90px 5vw;max-width:1200px;margin:0 auto;}
+    .int-panel.active{display:block;}
+
+    /* Split layout */
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+    .split.rev .emoji-side{order:2;}
+    .split.rev .text-side{order:1;}
+
+    /* Emoji side */
+    .emoji-side{text-align:center;position:relative;}
+    .big-emoji{
+      font-size:clamp(120px,18vw,200px);line-height:1;display:block;
+      filter:drop-shadow(0 0 40px rgba(200,241,53,.4));
+      animation:emojiFloat 4s ease-in-out infinite;
+    }
+    .panel-cyan .big-emoji{filter:drop-shadow(0 0 40px rgba(53,241,232,.4));}
+    .panel-rose .big-emoji{filter:drop-shadow(0 0 40px rgba(241,53,121,.4));}
+    @keyframes emojiFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-20px) rotate(2deg)}}
+
+    .emoji-ring{
+      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+      width:280px;height:280px;border-radius:50%;
+      border:1px solid rgba(200,241,53,.1);
+      animation:ringPulse 3s ease-in-out infinite;
+      pointer-events:none;
+    }
+    .emoji-ring-2{
+      width:360px;height:360px;
+      border-color:rgba(200,241,53,.05);
+      animation:ringPulse 3s 1s ease-in-out infinite;
+    }
+    .panel-cyan .emoji-ring{border-color:rgba(53,241,232,.1);}
+    .panel-cyan .emoji-ring-2{border-color:rgba(53,241,232,.05);}
+    .panel-rose .emoji-ring{border-color:rgba(241,53,121,.1);}
+    .panel-rose .emoji-ring-2{border-color:rgba(241,53,121,.05);}
+    @keyframes ringPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}50%{transform:translate(-50%,-50%) scale(1.08);opacity:.5}}
+
+    /* Text side */
+    .panel-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--lime);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;display:block;}
+    .panel-cyan .panel-tag{color:var(--cyan);}
+    .panel-rose .panel-tag{color:var(--rose);}
+    .int-title{font-size:clamp(38px,5.5vw,70px);font-weight:800;letter-spacing:-2px;line-height:.95;margin-bottom:24px;}
+    .int-title em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;}
+    .panel-lime .int-title em{color:var(--lime);}
+    .panel-cyan .int-title em{color:var(--cyan);}
+    .panel-rose .int-title em{color:var(--rose);}
+
+    .int-body{font-family:'Instrument Serif',serif;font-style:italic;font-size:19px;line-height:1.75;color:rgba(240,239,245,.7);margin-bottom:20px;}
+    .int-body strong{color:var(--white);font-style:normal;font-family:'Syne',sans-serif;}
+
+    /* Cards below */
+    .int-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:32px;}
+    .ic{background:var(--card);border:1px solid var(--rim);border-radius:2px;padding:20px;transition:border-color .2s;}
+    .panel-lime .ic:hover{border-color:rgba(200,241,53,.3);}
+    .panel-cyan .ic:hover{border-color:rgba(53,241,232,.3);}
+    .panel-rose .ic:hover{border-color:rgba(241,53,121,.3);}
+    .ic h4{font-size:14px;font-weight:800;margin-bottom:6px;letter-spacing:-.2px;}
+    .ic p{font-size:12.5px;color:var(--muted);line-height:1.6;}
+
+    /* Quote */
+    .big-quote{
+      border-left:3px solid var(--lime);padding:24px 28px;
+      background:var(--card);border-radius:0 2px 2px 0;
+      margin:36px 0;
+    }
+    .panel-cyan .big-quote{border-color:var(--cyan);}
+    .panel-rose .big-quote{border-color:var(--rose);}
+    .big-quote p{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:var(--white);line-height:1.5;}
+    .big-quote cite{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:10px;display:block;}
+
+    /* Tag cloud */
+    .tag-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+    .t{padding:6px 16px;border:1px solid var(--rim);border-radius:99px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);transition:all .2s;}
+    .panel-lime .t:hover{border-color:var(--lime);color:var(--lime);}
+    .panel-cyan .t:hover{border-color:var(--cyan);color:var(--cyan);}
+    .panel-rose .t:hover{border-color:var(--rose);color:var(--rose);}
+
+    footer{background:var(--deep);border-top:1px solid var(--rim);padding:28px 5vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);}
+    footer a{color:var(--lime);text-decoration:none;}
+
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+
+    @media(max-width:900px){.split{grid-template-columns:1fr;gap:40px;}.split.rev .emoji-side,.split.rev .text-side{order:unset;}.big-emoji{font-size:80px;}.int-cards{grid-template-columns:1fr;}}
+    @media(max-width:768px){.nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(5,5,8,.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--rim);padding:10px 0;}.nav-links.open{display:flex;}.nav-links a{padding:14px 5vw;}.hamburger{display:flex;}body{cursor:auto;}#cursor,#cursor-ring{display:none;}.tab-btn{padding:14px 18px;font-size:11px;}}
+  </style>
+</head>
+<body>
+  <div id="cursor"></div><div id="cursor-ring"></div>
+
+  <nav id="mainNav">
+    <a class="logo" href="index.html">SP<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="interest.html" class="active">Interests</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="ph-num">03 — Interests</div>
+    <h1 class="ph-title">What <em>Drives</em><br/>Me Forward.</h1>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tabs-bar">
+    <button class="tab-btn active" data-tab="singing">🎵 Singing</button>
+    <button class="tab-btn" data-tab="mimicry">🎭 Mimicry</button>
+    <button class="tab-btn" data-tab="coding">💻 Coding</button>
+  </div>
+
+  <!-- ── SINGING ── -->
+  <div class="int-panel panel-lime active" id="panel-singing">
+    <div class="split">
+      <div class="emoji-side">
+        <div class="emoji-ring"></div>
+        <div class="emoji-ring emoji-ring-2"></div>
+        <span class="big-emoji">🎵</span>
+      </div>
+      <div class="text-side">
+        <span class="panel-tag">Interest 01 / 03</span>
+        <h2 class="int-title">Singing &amp;<br/><em>Melody</em></h2>
+        <p class="int-body">Music has always been my <strong>first language</strong>. Before I could code, I could hum. Singing is how I process emotion, connect with people, and find silence inside noise.</p>
+        <p class="int-body">From Nepali folk melodies to Bollywood ballads, I find something to love in every genre. I've performed at school events and love singing just as much in the shower.</p>
+        <div class="big-quote">
+          <p>"Music gives a soul to the universe, wings to the mind, flight to the imagination."</p>
+          <cite>— Plato</cite>
+        </div>
+        <div class="int-cards">
+          <div class="ic"><h4>🎙️ Genres I Love</h4><p>Nepali folk, Bollywood classics, emotional ballads, and soulful R&B.</p></div>
+          <div class="ic"><h4>🎤 Performances</h4><p>School events, informal gatherings, and any moment someone asks me to sing.</p></div>
+          <div class="ic"><h4>🎼 Learning Style</h4><p>Self-taught through listening deeply, humming, and experimenting with pitch and rhythm.</p></div>
+          <div class="ic"><h4>🌟 Favourite Artists</h4><p>Arijit Singh, Narayan Gopal, and any artist who pours raw emotion into their voice.</p></div>
+        </div>
+        <div class="tag-cloud">
+          <span class="t">Nepali Folk</span><span class="t">Bollywood</span><span class="t">Self-Taught</span><span class="t">School Events</span><span class="t">Live Performance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MIMICRY ── -->
+  <div class="int-panel panel-cyan" id="panel-mimicry">
+    <div class="split rev">
+      <div class="emoji-side">
+        <div class="emoji-ring"></div>
+        <div class="emoji-ring emoji-ring-2"></div>
+        <span class="big-emoji" style="animation-delay:.5s">🎭</span>
+      </div>
+      <div class="text-side">
+        <span class="panel-tag">Interest 02 / 03</span>
+        <h2 class="int-title">Mimicry &amp;<br/><em>Performance</em></h2>
+        <p class="int-body">Mimicry is the art of <strong>deep observation</strong>. Every voice has a fingerprint — a rhythm, a pace, an energy. I study these and bring them back to life.</p>
+        <p class="int-body">It started as a way to make friends laugh. Now it's sharpened my attention to detail, built my confidence on stage, and taught me that the best performances come from understanding, not just imitation.</p>
+        <div class="big-quote" style="border-color:var(--cyan)">
+          <p>"Imitation is the sincerest form of flattery that mediocrity can pay to greatness."</p>
+          <cite>— Oscar Wilde</cite>
+        </div>
+        <div class="int-cards">
+          <div class="ic"><h4>🎬 What I Mimic</h4><p>Bollywood actors, animated characters, teachers (playfully!), and regional accents.</p></div>
+          <div class="ic"><h4>🧠 How I Practice</h4><p>Close listening, slowing down speech patterns, then rebuilding from the inside out.</p></div>
+          <div class="ic"><h4>🎪 Why I Do It</h4><p>Because making a room laugh is one of the best feelings in the world.</p></div>
+          <div class="ic"><h4>💡 What It Taught Me</h4><p>Patience, observation, and that every person has a story worth studying.</p></div>
+        </div>
+        <div class="tag-cloud">
+          <span class="t">Bollywood Actors</span><span class="t">Characters</span><span class="t">Accents</span><span class="t">Comedy</span><span class="t">Stage Performance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CODING ── -->
+  <div class="int-panel panel-rose" id="panel-coding">
+    <div class="split">
+      <div class="emoji-side">
+        <div class="emoji-ring"></div>
+        <div class="emoji-ring emoji-ring-2"></div>
+        <span class="big-emoji" style="animation-delay:1s">💻</span>
+      </div>
+      <div class="text-side">
+        <span class="panel-tag">Interest 03 / 03</span>
+        <h2 class="int-title">Coding &amp;<br/><em>Creating</em></h2>
+        <p class="int-body">Beyond being a school subject, coding genuinely fascinates me. The idea that <strong>text becomes experience</strong> — that logic becomes a living page — still feels like magic.</p>
+        <p class="int-body">This portfolio you're viewing? I built it. Every animation, every hover effect, every line of CSS. That's what excites me — not just learning to code, but using it to make something real.</p>
+        <div class="big-quote" style="border-color:var(--rose)">
+          <p>"Everyone should learn how to program a computer — it teaches you how to think."</p>
+          <cite>— Steve Jobs</cite>
+        </div>
+        <div class="int-cards">
+          <div class="ic"><h4>🌐 Web Pages</h4><p>HTML + CSS — structuring and styling things that live in browsers, for people to use.</p></div>
+          <div class="ic"><h4>⚙️ C Programs</h4><p>Logic, loops, and algorithms — building problem-solving muscles with every exercise.</p></div>
+          <div class="ic"><h4>🎨 Design + Code</h4><p>I love when code and aesthetics collide. This site is my favourite proof of that.</p></div>
+          <div class="ic"><h4>🔍 Debugging</h4><p>Finding what broke and why — it's frustrating and deeply satisfying at the same time.</p></div>
+        </div>
+        <div class="tag-cloud">
+          <span class="t">HTML5</span><span class="t">CSS3</span><span class="t">C Language</span><span class="t">Problem Solving</span><span class="t">UI Design</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2026 Samyam Pokharel · CS427</span>
+    <a href="cover.html">← Cover Page</a>
+  </footer>
+
+  <script>
+    const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+    document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},60);});
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.width='20px';cur.style.height='20px';ring.style.width='60px';ring.style.height='60px';});el.addEventListener('mouseleave',()=>{cur.style.width='12px';cur.style.height='12px';ring.style.width='40px';ring.style.height='40px';});});
+    const nav=document.getElementById('mainNav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>50));
+    document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const tab=btn.dataset.tab;
+        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.int-panel').forEach(p=>p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('panel-'+tab).classList.add('active');
+      });
+    });
+
+    const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  </script>
+</body>
+</html>

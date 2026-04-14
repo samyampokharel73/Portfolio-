@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wireframe — Samyam Pokharel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:      #f7f5f0;
+      --paper:   #fdfcf8;
+      --ink:     #1a1814;
+      --ink2:    #2e2c28;
+      --muted:   #9a9890;
+      --border:  #d4d0c8;
+      --border2: #c0bbb0;
+      --blue:    #2255cc;
+      --red:     #cc2233;
+      --green:   #226633;
+      --shadow:  rgba(26,24,20,0.10);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'JetBrains Mono', monospace;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    /* Drafting paper background */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(rgba(34,85,204,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,85,204,0.04) 1px, transparent 1px),
+        linear-gradient(rgba(34,85,204,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34,85,204,0.015) 1px, transparent 1px);
+      background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 5vw;
+      background: rgba(247,245,240,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px; font-weight: 800;
+      color: var(--ink); text-decoration: none; letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--blue); }
+    .nav-links { display: flex; gap: 2px; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 10px;
+      font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 6px 12px; border: 1px solid transparent; border-radius: 2px;
+      transition: all .15s;
+    }
+    .nav-links a:hover { color: var(--ink); border-color: var(--border); }
+    .nav-links a.active { color: var(--blue); border-color: var(--blue); background: rgba(34,85,204,0.04); }
+    .hamburger { display: none; flex-direction: column; gap: 4px; cursor: crosshair; }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--ink); }
+
+    /* ── PAGE WRAPPER ── */
+    .wrapper {
+      position: relative; z-index: 1;
+      max-width: 1300px; margin: 0 auto;
+      padding: 90px 5vw 60px;
+    }
+
+    /* ── HEADER ── */
+    .page-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 40px; padding-bottom: 20px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .ph-left {}
+    .ph-tag {
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 8px;
+    }
+    .ph-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 4vw, 50px);
+      font-weight: 800; letter-spacing: -2px; line-height: 1;
+    }
+    .ph-right {
+      font-size: 10px; color: var(--muted); letter-spacing: 1px; text-align: right; line-height: 1.8;
+    }
+    .ph-right strong { color: var(--ink); }
+
+    /* ── PAGE SELECTOR TABS ── */
+    .page-tabs {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 32px;
+    }
+    .tab-btn {
+      padding: 8px 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; font-weight: 500; letter-spacing: 1px;
+      text-transform: uppercase; cursor: crosshair;
+      background: var(--paper); border: 1px solid var(--border);
+      border-radius: 2px; color: var(--muted);
+      transition: all .15s;
+    }
+    .tab-btn:hover { color: var(--ink); border-color: var(--border2); }
+    .tab-btn.active {
+      background: var(--ink); color: #fff;
+      border-color: var(--ink);
+    }
+
+    /* ── WIREFRAME CANVAS ── */
+    .canvas-area {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 32px;
+      box-shadow: 0 2px 20px var(--shadow);
+      margin-bottom: 32px;
+      min-height: 600px;
+    }
+
+    /* Page frame title bar */
+    .wf-window {
+      border: 1.5px solid var(--ink);
+      border-radius: 3px;
+      overflow: hidden;
+      max-width: 900px; margin: 0 auto;
+    }
+    .wf-titlebar {
+      background: var(--ink); color: #fff;
+      padding: 8px 14px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 11px; letter-spacing: 1.5px;
+    }
+    .wf-dots { display: flex; gap: 6px; }
+    .wf-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .wd-red { background: var(--red); }
+    .wd-yellow { background: #e6a817; }
+    .wd-green { background: var(--green); }
+
+    /* Wireframe content wrapper */
+    .wf-content { padding: 0; }
+
+    /* ── WF PRIMITIVES ── */
+    /* Nav bar */
+    .wf-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(34,85,204,0.03);
+    }
+    .wf-logo-box {
+      width: 60px; height: 18px;
+      background: var(--ink); border-radius: 1px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .wf-logo-box span { font-size: 8px; color: #fff; letter-spacing: 1px; }
+    .wf-nav-links { display: flex; gap: 4px; }
+    .wf-nl {
+      height: 16px; border: 1px solid var(--border); border-radius: 1px;
+      display: flex; align-items: center; padding: 0 8px;
+      font-size: 8px; color: var(--muted); letter-spacing: 0.5px;
+    }
+    .wf-nl.active-nl { border-color: var(--blue); color: var(--blue); background: rgba(34,85,204,0.05); }
+
+    /* Generic block */
+    .wf-block {
+      border: 1px dashed var(--border2);
+      border-radius: 2px;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .wf-block::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent, transparent 5px,
+        rgba(0,0,0,0.02) 5px, rgba(0,0,0,0.02) 6px
+      );
+    }
+    .wf-block-label {
+      position: relative; z-index: 1;
+      font-size: 9px; color: var(--muted); letter-spacing: 1px;
+      text-transform: uppercase; text-align: center;
+      background: var(--paper); padding: 2px 6px; border-radius: 1px;
+    }
+
+    /* Solid block (filled) */
+    .wf-solid {
+      border: 1px solid var(--border2);
+      border-radius: 2px;
+      background: rgba(26,24,20,0.05);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .wf-solid-label { font-size: 9px; color: var(--ink2); letter-spacing: 0.5px; text-transform: uppercase; }
+
+    /* Text lines */
+    .wf-line { height: 8px; background: rgba(26,24,20,0.12); border-radius: 1px; margin-bottom: 6px; }
+    .wf-line.short { width: 60%; }
+    .wf-line.med   { width: 80%; }
+    .wf-line.full  { width: 100%; }
+    .wf-line.tiny  { width: 40%; height: 6px; }
+
+    /* Big heading lines */
+    .wf-heading { height: 16px; background: rgba(26,24,20,0.2); border-radius: 1px; margin-bottom: 8px; }
+    .wf-h1 { width: 70%; height: 22px; }
+    .wf-h2 { width: 50%; height: 16px; }
+    .wf-h3 { width: 35%; height: 12px; }
+
+    /* Button */
+    .wf-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 28px; padding: 0 16px;
+      border: 1.5px solid var(--ink); border-radius: 2px;
+      font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink);
+    }
+    .wf-btn.filled { background: var(--ink); color: transparent; }
+    .wf-btn-row { display: flex; gap: 8px; margin-top: 10px; }
+
+    /* Input field */
+    .wf-input {
+      width: 100%; height: 28px;
+      border: 1px solid var(--border2); border-radius: 2px;
+      background: var(--paper); margin-bottom: 8px;
+      position: relative; display: flex; align-items: center; padding: 0 10px;
+    }
+    .wf-input-label { font-size: 9px; color: var(--muted); letter-spacing: 0.5px; }
+    .wf-label-above { font-size: 8px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+
+    /* Grid layouts */
+    .wf-row { display: flex; gap: 10px; }
+    .wf-col { flex: 1; }
+    .wf-col-fixed { flex-shrink: 0; }
+
+    /* Annotation */
+    .annotation {
+      position: absolute;
+      font-size: 9px; color: var(--blue); letter-spacing: 0.5px;
+      display: flex; align-items: center; gap: 4px;
+      white-space: nowrap;
+    }
+    .annotation::before { content: '←'; font-size: 10px; }
+    .annotation.right { flex-direction: row-reverse; }
+    .annotation.right::before { content: '→'; }
+    .annotation.top { flex-direction: column; }
+    .annotation.top::before { content: '↑'; }
+
+    /* Section padding */
+    .wf-section { padding: 14px 16px; border-bottom: 1px solid var(--border); position: relative; }
+    .wf-section:last-child { border-bottom: none; }
+    .wf-section-tag {
+      font-size: 8px; color: var(--blue); letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 8px; display: block;
+    }
+
+    /* ── ANNOTATION PANEL ── */
+    .annotations-panel {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px; margin-bottom: 32px;
+    }
+    .ann-card {
+      background: var(--paper); border: 1px solid var(--border);
+      border-radius: 2px; padding: 16px;
+    }
+    .ann-num {
+      font-size: 9px; color: var(--blue); letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 6px;
+    }
+    .ann-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .ann-desc { font-size: 11px; color: var(--muted); line-height: 1.6; }
+
+    /* ── PAGE OVERVIEW GRID ── */
+    .overview-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 14px; margin-bottom: 32px;
+    }
+    .ov-card {
+      background: var(--paper); border: 1px solid var(--border);
+      border-radius: 2px; overflow: hidden; cursor: crosshair;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .ov-card:hover { border-color: var(--blue); box-shadow: 0 4px 16px rgba(34,85,204,0.1); }
+    .ov-thumb {
+      padding: 10px 10px 0; background: rgba(34,85,204,0.03);
+      border-bottom: 1px solid var(--border);
+    }
+    /* Mini wireframe in thumbnail */
+    .ov-mini-nav { height: 8px; background: rgba(26,24,20,0.12); border-radius: 1px; margin-bottom: 6px; }
+    .ov-mini-hero { margin-bottom: 4px; }
+    .ov-mini-line { height: 4px; background: rgba(26,24,20,0.1); border-radius: 1px; margin-bottom: 3px; }
+    .ov-mini-line.w80 { width: 80%; }
+    .ov-mini-line.w60 { width: 60%; }
+    .ov-mini-line.w40 { width: 40%; }
+    .ov-mini-block { height: 20px; background: rgba(34,85,204,0.08); border: 1px dashed rgba(34,85,204,0.2); border-radius: 1px; margin-bottom: 4px; }
+    .ov-mini-grid { display: flex; gap: 3px; margin-bottom: 4px; }
+    .ov-mini-col { flex: 1; height: 18px; background: rgba(26,24,20,0.06); border-radius: 1px; }
+    .ov-label { padding: 8px 10px; font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; }
+    .ov-file { font-size: 9px; color: var(--blue); }
+
+    /* ── LEGEND ── */
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 16px; padding: 16px 20px;
+      background: var(--paper); border: 1px solid var(--border); border-radius: 2px;
+      margin-bottom: 20px;
+    }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--muted); }
+    .leg-box { width: 24px; height: 14px; border-radius: 1px; flex-shrink: 0; }
+    .leg-dashed { border: 1px dashed var(--border2); background: repeating-linear-gradient(-45deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px); }
+    .leg-solid { background: rgba(26,24,20,0.1); border: 1px solid var(--border2); }
+    .leg-filled { background: var(--ink); }
+    .leg-text { background: rgba(26,24,20,0.15); border: none; height: 6px; align-self: center; }
+    .leg-blue { background: rgba(34,85,204,0.15); border: 1px dashed var(--blue); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 10px; color: var(--muted); letter-spacing: 1px;
+      position: relative; z-index: 1;
+    }
+    footer a { color: var(--blue); text-decoration: none; }
+
+    /* ── PANELS HIDDEN/SHOWN ── */
+    .wf-panel { display: none; }
+    .wf-panel.active { display: block; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .overview-grid { grid-template-columns: repeat(2,1fr); }
+      .annotations-panel { grid-template-columns: 1fr; }
+      .wf-row { flex-direction: column; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(247,245,240,0.98); border-bottom: 1px solid var(--border); padding: 8px 0; }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 12px 5vw; border: none; }
+      .hamburger { display: flex; }
+      .overview-grid { grid-template-columns: 1fr 1fr; }
+      .page-tabs { gap: 4px; }
+      .tab-btn { font-size: 10px; padding: 6px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="mainNav">
+    <a class="logo" href="index.html">SP<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="interest.html">Interests</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="mainframe.html">Mainframe</a></li>
+      <li><a href="wireframe.html" class="active">Wireframe</a></li>
+      <li><a href="cover.html">Cover</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="wrapper">
+
+    <!-- HEADER -->
+    <div class="page-header">
+      <div class="ph-left">
+        <div class="ph-tag">Design Blueprint · CS427 Portfolio</div>
+        <h1 class="ph-title">WIRE<br/>FRAME</h1>
+      </div>
+      <div class="ph-right">
+        <strong>Student:</strong> Samyam Pokharel<br/>
+        <strong>Section:</strong> Surma Sarovar<br/>
+        <strong>School ID:</strong> 000468442<br/>
+        <strong>Symbol No:</strong> 25694275<br/>
+        <strong>Teacher:</strong> Pujan Thapa Magar<br/>
+        <strong>Pages:</strong> 8 HTML files
+      </div>
+    </div>
+
+    <!-- LEGEND -->
+    <div class="legend">
+      <div class="legend-item"><div class="leg-box leg-dashed"></div>Image / media placeholder</div>
+      <div class="legend-item"><div class="leg-box leg-solid"></div>Content block / card</div>
+      <div class="legend-item"><div class="leg-box leg-filled"></div>Button / CTA element</div>
+      <div class="legend-item"><div class="leg-box leg-text" style="width:40px;height:6px;"></div>Text / paragraph lines</div>
+      <div class="legend-item"><div class="leg-box leg-blue"></div>Interactive / form element</div>
+    </div>
+
+    <!-- ALL PAGES OVERVIEW -->
+    <div style="margin-bottom:12px;">
+      <div class="ph-tag">All Pages — Quick Overview</div>
+    </div>
+    <div class="overview-grid">
+      <div class="ov-card" onclick="switchTab('index')">
+        <div class="ov-thumb">
+          <div class="ov-mini-nav"></div>
+          <div class="ov-mini-hero">
+            <div class="ov-mini-line" style="height:10px;width:70%;background:rgba(26,24,20,0.2);"></div>
+            <div class="ov-mini-line w80"></div>
+            <div class="ov-mini-line w60"></div>
+          </div>
+          <div class="ov-mini-grid"><div class="ov-mini-col"></div><div class="ov-mini-col"></div><div class="ov-mini-col"></div><div class="ov-mini-col"></div></div>
+          <div class="ov-mini-block"></div>
+        </div>
+        <div class="ov-label">Home<br/><span class="ov-file">index.html</span></div>
+      </div>
+      <div class="ov-card" onclick="switchTab('about')">
+        <div class="ov-thumb">
+          <div class="ov-mini-nav"></div>
+          <div class="ov-mini-grid" style="height:40px;"><div class="ov-mini-col" style="background:rgba(34,85,204,0.1);border:1px dashed rgba(34,85,204,0.3);"></div><div class="ov-mini-col"></div></div>
+          <div class="ov-mini-line w80"></div><div class="ov-mini-line w60"></div>
+        </div>
+        <div class="ov-label">About<br/><span class="ov-file">about.html</span></div>
+      </div>
+      <div class="ov-card" onclick="switchTab('skills')">
+        <div class="ov-thumb">
+          <div class="ov-mini-nav"></div>
+          <div class="ov-mini-hero"><div class="ov-mini-line" style="height:8px;width:60%;background:rgba(26,24,20,0.2);"></div></div>
+          <div class="ov-mini-grid"><div class="ov-mini-col"></div><div class="ov-mini-col"></div><div class="ov-mini-col"></div></div>
+          <div class="ov-mini-line w80"></div>
+        </div>
+        <div class="ov-label">Skills<br/><span class="ov-file">skills.html</span></div>
+      </div>
+      <div class="ov-card" onclick="switchTab('interest')">
+        <div class="ov-thumb">
+          <div class="ov-mini-nav"></div>
+          <div class="ov-mini-block" style="height:16px;"></div>
+          <div class="ov-mini-grid"><div class="ov-mini-col"></div><div class="ov-mini-col"></div><div class="ov-mini-col"></div></div>
+          <div class="ov-mini-line w60"></div>
+        </div>
+        <div class="ov-label">Interests<br/><span class="ov-file">interest.html</span></div>
+      </div>
+      <div class="ov-card" onclick="switchTab('contact')">
+        <div class="ov-thumb">
+          <div class="ov-mini-nav"></div>
+          <div class="ov-mini-grid">
+            <div class="ov-mini-col"><div class="ov-mini-line w80"></div><div class="ov-mini-line w60"></div></div>
+            <div class="ov-mini-col" style="background:rgba(34,85,204,0.08);border:1px dashed rgba(34,85,204,0.2);border-radius:1px;"></div>
+          </div>
+        </div>
+        <div class="ov-label">Contact<br/><span class="ov-file">contact.html</span></div>
+      </div>
+      <div class="ov-card" onclick="switchTab('mainframe')">
+        <div class="ov-thumb">
+          <div class="ov-mini-nav" style="background:rgba(26,24,20,0.12);"></div>
+          <div class="ov-mini-grid">
+            <div class="ov-mini-col" style="background:rgba(26,24,20,0.08);border-radius:1px;"></div>
+            <div style="flex:2;display:flex;flex-direction:column;gap:3px;">
+              <div class="ov-mini-block" style="height:14px;"></div>
+              <div class="ov-mini-line w80"></div>
+            </div>
+          </div>
+        </div>
+        <div class="ov-label">Mainframe<br/><span class="ov-file">mainframe.html</span></div>
+      </div>
+      <div class="ov-card" onclick="switchTab('cover')">
+        <div class="ov-thumb">
+          <div style="height:8px;background:rgba(26,24,20,0.15);border-radius:1px;margin-bottom:4px;"></div>
+          <div style="display:flex;gap:4px;margin-bottom:4px;">
+            <div style="flex:1;height:20px;background:rgba(34,85,204,0.08);border:1px dashed rgba(34,85,204,0.2);border-radius:1px;"></div>
+            <div style="width:24px;height:24px;background:rgba(26,24,20,0.08);border:1px dashed rgba(26,24,20,0.2);border-radius:1px;"></div>
+          </div>
+          <div class="ov-mini-line w60"></div><div class="ov-mini-line w40"></div>
+        </div>
+        <div class="ov-label">Cover Page<br/><span class="ov-file">cover.html</span></div>
+      </div>
+      <div class="ov-card" onclick="switchTab('wireframe')" style="border-color:var(--blue);">
+        <div class="ov-thumb" style="background:rgba(34,85,204,0.04);">
+          <div class="ov-mini-nav" style="background:rgba(34,85,204,0.15);"></div>
+          <div class="ov-mini-line w80" style="background:rgba(34,85,204,0.2);"></div>
+          <div class="ov-mini-grid"><div class="ov-mini-col" style="background:rgba(34,85,204,0.1);border-radius:1px;"></div><div class="ov-mini-col" style="background:rgba(34,85,204,0.1);border-radius:1px;"></div></div>
+        </div>
+        <div class="ov-label" style="color:var(--blue);">Wireframe ← You are here<br/><span class="ov-file">wireframe.html</span></div>
+      </div>
+    </div>
+
+    <!-- TAB SWITCHER -->
+    <div style="margin-bottom:12px;"><div class="ph-tag">Detailed Wireframe — Select a Page</div></div>
+    <div class="page-tabs">
+      <button class="tab-btn active" data-tab="index"      onclick="switchTab('index')">Home</button>
+      <button class="tab-btn"        data-tab="about"      onclick="switchTab('about')">About</button>
+      <button class="tab-btn"        data-tab="skills"     onclick="switchTab('skills')">Skills</button>
+      <button class="tab-btn"        data-tab="interest"   onclick="switchTab('interest')">Interests</button>
+      <button class="tab-btn"        data-tab="contact"    onclick="switchTab('contact')">Contact</button>
+      <button class="tab-btn"        data-tab="mainframe"  onclick="switchTab('mainframe')">Mainframe</button>
+      <button class="tab-btn"        data-tab="cover"      onclick="switchTab('cover')">Cover Page</button>
+      <button class="tab-btn"        data-tab="wireframe"  onclick="switchTab('wireframe')">Wireframe</button>
+    </div>
+
+    <!-- ═══════════════════════════════ -->
+    <!--        WIREFRAME PANELS        -->
+    <!-- ═══════════════════════════════ -->
+
+    <!-- INDEX.HTML -->
+    <div class="wf-panel active" id="panel-index">
+      <div class="canvas-area">
+        <div class="wf-window">
+          <div class="wf-titlebar">
+            <div class="wf-dots"><div class="wf-dot wd-red"></div><div class="wf-dot wd-yellow"></div><div class="wf-dot wd-green"></div></div>
+            <span>index.html — Home Page</span>
+            <span style="color:rgba(255,255,255,0.4)">browser</span>
+          </div>
+          <div class="wf-content">
+            <!-- Nav -->
+            <div class="wf-nav">
+              <div class="wf-logo-box"><span>SP.</span></div>
+              <div class="wf-nav-links">
+                <div class="wf-nl active-nl">Home</div>
+                <div class="wf-nl">About</div>
+                <div class="wf-nl">Skills</div>
+                <div class="wf-nl">Interests</div>
+                <div class="wf-nl">Contact</div>
+              </div>
+            </div>
+            <!-- Hero -->
+            <div class="wf-section" style="background:rgba(26,24,20,0.02);min-height:180px;">
+              <span class="wf-section-tag">Hero Section · 100vh · min-height: 100vh</span>
+              <div class="wf-row">
+                <div class="wf-col">
+                  <div class="wf-heading wf-h3" style="width:30%;margin-bottom:6px;"></div>
+                  <div class="wf-heading wf-h1"></div>
+                  <div class="wf-heading wf-h1" style="width:55%;"></div>
+                  <div style="margin-top:10px;">
+                    <div class="wf-line med"></div>
+                    <div class="wf-line short"></div>
+                  </div>
+                  <div class="wf-btn-row">
+                    <div class="wf-btn filled" style="width:100px;"></div>
+                    <div class="wf-btn" style="width:90px;"></div>
+                  </div>
+                </div>
+                <div class="wf-col-fixed" style="width:160px;">
+                  <div class="wf-block" style="width:100%;height:140px;">
+                    <div class="wf-block-label">Photo<br/>3:4 ratio</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- About -->
+            <div class="wf-section">
+              <span class="wf-section-tag">About Section · 2-column grid</span>
+              <div class="wf-row">
+                <div class="wf-col">
+                  <div class="wf-block" style="width:100%;height:100px;"><div class="wf-block-label">Photo</div></div>
+                </div>
+                <div class="wf-col">
+                  <div class="wf-heading wf-h2"></div>
+                  <div class="wf-line full"></div><div class="wf-line med"></div><div class="wf-line short"></div>
+                  <div style="margin-top:8px;display:flex;gap:6px;">
+                    <div class="wf-solid" style="flex:1;height:36px;"><div class="wf-solid-label">Stat</div></div>
+                    <div class="wf-solid" style="flex:1;height:36px;"><div class="wf-solid-label">Stat</div></div>
+                    <div class="wf-solid" style="flex:1;height:36px;"><div class="wf-solid-label">Stat</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Skills -->
+            <div class="wf-section">
+              <span class="wf-section-tag">Skills Section · 3-column grid</span>
+              <div class="wf-row">
+                <div class="wf-col"><div class="wf-solid" style="height:60px;"><div class="wf-solid-label">HTML · 80%</div></div></div>
+                <div class="wf-col"><div class="wf-solid" style="height:60px;"><div class="wf-solid-label">CSS · 75%</div></div></div>
+                <div class="wf-col"><div class="wf-solid" style="height:60px;"><div class="wf-solid-label">C · 65%</div></div></div>
+              </div>
+            </div>
+            <!-- Interests -->
+            <div class="wf-section">
+              <span class="wf-section-tag">Interests Section · 3 cards</span>
+              <div class="wf-row">
+                <div class="wf-col"><div class="wf-block" style="height:50px;"><div class="wf-block-label">🎵 Singing</div></div></div>
+                <div class="wf-col"><div class="wf-block" style="height:50px;"><div class="wf-block-label">🎭 Mimicry</div></div></div>
+                <div class="wf-col"><div class="wf-block" style="height:50px;"><div class="wf-block-label">💻 Coding</div></div></div>
+              </div>
+            </div>
+            <!-- Contact form -->
+            <div class="wf-section">
+              <span class="wf-section-tag">Contact Section · 2-column</span>
+              <div class="wf-row">
+                <div class="wf-col"><div class="wf-line med"></div><div class="wf-line short"></div></div>
+                <div class="wf-col">
+                  <div style="border:1px solid var(--border);padding:8px;border-radius:2px;">
+                    <div class="wf-input"><div class="wf-input-label">Name</div></div>
+                    <div class="wf-input"><div class="wf-input-label">Email</div></div>
+                    <div class="wf-input" style="height:40px;align-items:flex-start;padding-top:6px;"><div class="wf-input-label">Message</div></div>
+                    <div class="wf-btn filled" style="width:100%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Footer -->
+            <div class="wf-section" style="background:rgba(26,24,20,0.04);">
+              <div class="wf-row" style="justify-content:space-between;">
+                <div class="wf-line tiny"></div>
+                <div class="wf-line tiny"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="annotations-panel">
+        <div class="ann-card"><div class="ann-num">01 · Hero</div><div class="ann-title">Full-Screen Entry</div><div class="ann-desc">Uses <code>min-height: 100vh</code> so it always fills the screen. Animated gradient orbs sit behind the text as background decoration.</div></div>
+        <div class="ann-card"><div class="ann-num">02 · Grid</div><div class="ann-title">2-Column & 3-Column Layouts</div><div class="ann-desc">CSS Grid with <code>grid-template-columns: 1fr 1fr</code> for about/contact and <code>repeat(3,1fr)</code> for skills/interests. Collapses to 1 column on mobile.</div></div>
+        <div class="ann-card"><div class="ann-num">03 · Nav</div><div class="ann-title">Sticky Navigation</div><div class="ann-desc">Fixed to top with <code>position: fixed</code>. Gets glass blur on scroll via JavaScript adding the <code>.scrolled</code> class.</div></div>
+      </div>
+    </div>
+
+    <!-- ABOUT.HTML -->
+    <div class="wf-panel" id="panel-about">
+      <div class="canvas-area">
+        <div class="wf-window">
+          <div class="wf-titlebar">
+            <div class="wf-dots"><div class="wf-dot wd-red"></div><div class="wf-dot wd-yellow"></div><div class="wf-dot wd-green"></div></div>
+            <span>about.html — About Page</span>
+            <span style="color:rgba(255,255,255,0.4)">browser</span>
+          </div>
+          <div class="wf-content">
+            <div class="wf-nav">
+              <div class="wf-logo-box"><span>SP.</span></div>
+              <div class="wf-nav-links"><div class="wf-nl">Home</div><div class="wf-nl active-nl">About</div><div class="wf-nl">Skills</div><div class="wf-nl">Interests</div><div class="wf-nl">Contact</div></div>
+            </div>
+            <!-- Page Hero -->
+            <div class="wf-section" style="background:rgba(26,24,20,0.04);">
+              <span class="wf-section-tag">Page Hero Banner · padding-top: 140px</span>
+              <div class="wf-heading wf-h1"></div>
+              <div class="wf-heading wf-h1" style="width:40%;"></div>
+              <div class="wf-line short"></div>
+            </div>
+            <!-- Main 2-col -->
+            <div class="wf-section">
+              <span class="wf-section-tag">Main Content · grid-template-columns: 1fr 1fr</span>
+              <div class="wf-row">
+                <!-- Left col: photo + info table -->
+                <div class="wf-col">
+                  <div class="wf-block" style="height:160px;margin-bottom:10px;">
+                    <div class="wf-block-label">Student Photo<br/>3:4 ratio<br/>border + corner brackets</div>
+                  </div>
+                  <div style="border:1px solid var(--border);border-radius:2px;overflow:hidden;">
+                    <div style="padding:6px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;"><div class="wf-line" style="width:35%;height:6px;"></div><div class="wf-line" style="width:40%;height:6px;"></div></div>
+                    <div style="padding:6px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;"><div class="wf-line" style="width:35%;height:6px;"></div><div class="wf-line" style="width:40%;height:6px;"></div></div>
+                    <div style="padding:6px 10px;display:flex;justify-content:space-between;"><div class="wf-line" style="width:35%;height:6px;"></div><div class="wf-line" style="width:40%;height:6px;"></div></div>
+                  </div>
+                </div>
+                <!-- Right col: text + timeline -->
+                <div class="wf-col">
+                  <div class="wf-heading wf-h2" style="margin-bottom:10px;"></div>
+                  <div class="wf-line full"></div><div class="wf-line med"></div><div class="wf-line full"></div><div class="wf-line short"></div>
+                  <!-- Timeline -->
+                  <div style="margin-top:14px;border-left:2px solid var(--border2);padding-left:14px;">
+                    <div style="margin-bottom:10px;"><div class="wf-line tiny"></div><div class="wf-line med"></div></div>
+                    <div style="margin-bottom:10px;"><div class="wf-line tiny"></div><div class="wf-line med"></div></div>
+                    <div><div class="wf-line tiny"></div><div class="wf-line short"></div></div>
+                  </div>
+                  <div class="wf-btn-row" style="margin-top:14px;">
+                    <div class="wf-btn filled" style="width:90px;"></div>
+                    <div class="wf-btn" style="width:80px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="wf-section" style="background:rgba(26,24,20,0.03);"><div class="wf-row" style="justify-content:space-between;"><div class="wf-line tiny"></div><div class="wf-line tiny"></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="annotations-panel">
+        <div class="ann-card"><div class="ann-num">01 · Layout</div><div class="ann-title">Asymmetric 2-Column</div><div class="ann-desc">Left column is narrower (photo + table). Right column gets more space for the bio text. <code>align-items: start</code> so both sides align from the top.</div></div>
+        <div class="ann-card"><div class="ann-num">02 · Timeline</div><div class="ann-title">CSS Pseudo-Element Line</div><div class="ann-desc">The vertical timeline line is drawn with <code>::before</code> on the <code>&lt;ul&gt;</code>. Each dot is also a <code>::before</code> pseudo-element — no extra HTML needed.</div></div>
+        <div class="ann-card"><div class="ann-num">03 · Photo</div><div class="ann-title">Corner Bracket Effect</div><div class="ann-desc">The neon corners around the photo use <code>::before</code> and <code>::after</code> on the frame div. Only 2 of 4 borders drawn on each gives the bracket look.</div></div>
+      </div>
+    </div>
+
+    <!-- SKILLS.HTML -->
+    <div class="wf-panel" id="panel-skills">
+      <div class="canvas-area">
+        <div class="wf-window">
+          <div class="wf-titlebar">
+            <div class="wf-dots"><div class="wf-dot wd-red"></div><div class="wf-dot wd-yellow"></div><div class="wf-dot wd-green"></div></div>
+            <span>skills.html — Skills Page</span>
+            <span style="color:rgba(255,255,255,0.4)">browser</span>
+          </div>
+          <div class="wf-content">
+            <div class="wf-nav"><div class="wf-logo-box"><span>SP.</span></div><div class="wf-nav-links"><div class="wf-nl">Home</div><div class="wf-nl">About</div><div class="wf-nl active-nl">Skills</div><div class="wf-nl">Interests</div><div class="wf-nl">Contact</div></div></div>
+            <!-- Page hero -->
+            <div class="wf-section" style="background:rgba(26,24,20,0.04);">
+              <span class="wf-section-tag">Page Hero · dark background</span>
+              <div class="wf-heading wf-h1"></div><div class="wf-heading wf-h1" style="width:50%;"></div>
+            </div>
+            <!-- 3 Skill Mega Panels stacked -->
+            <div class="wf-section">
+              <span class="wf-section-tag">Skill Panel 1 (HTML) · 2-column split</span>
+              <div class="wf-row" style="border:1px solid var(--border);border-radius:2px;overflow:hidden;">
+                <div class="wf-col" style="padding:12px;border-right:1px solid var(--border);">
+                  <div class="wf-line tiny"></div>
+                  <div style="font-size:20px;margin:6px 0;">🌐</div>
+                  <div class="wf-heading wf-h2" style="width:60%;"></div>
+                  <div class="wf-line full"></div><div class="wf-line med"></div>
+                  <div style="height:2px;background:var(--border);margin:8px 0;border-radius:1px;"><div style="width:80%;height:2px;background:var(--ink);border-radius:1px;"></div></div>
+                </div>
+                <div class="wf-col" style="padding:12px;">
+                  <div style="font-size:28px;color:rgba(26,24,20,0.1);font-weight:800;">80</div>
+                  <div class="wf-line full"></div><div class="wf-line med"></div><div class="wf-line full"></div>
+                </div>
+              </div>
+            </div>
+            <div class="wf-section">
+              <span class="wf-section-tag">Skill Panel 2 (CSS) · same layout, cyan accent</span>
+              <div class="wf-row" style="border:1px solid var(--border);border-radius:2px;overflow:hidden;">
+                <div class="wf-col" style="padding:12px;border-right:1px solid var(--border);"><div style="font-size:20px;margin:6px 0;">🎨</div><div class="wf-heading wf-h2" style="width:50%;"></div><div class="wf-line med"></div><div style="height:2px;background:var(--border);margin:8px 0;"><div style="width:75%;height:2px;background:rgba(34,85,204,0.4);"></div></div></div>
+                <div class="wf-col" style="padding:12px;"><div style="font-size:28px;color:rgba(26,24,20,0.1);font-weight:800;">75</div><div class="wf-line full"></div><div class="wf-line med"></div></div>
+              </div>
+            </div>
+            <div class="wf-section">
+              <span class="wf-section-tag">Skill Panel 3 (C) · same layout, rose accent</span>
+              <div class="wf-row" style="border:1px solid var(--border);border-radius:2px;overflow:hidden;">
+                <div class="wf-col" style="padding:12px;border-right:1px solid var(--border);"><div style="font-size:20px;margin:6px 0;">⚙️</div><div class="wf-heading wf-h2" style="width:40%;"></div><div class="wf-line med"></div><div style="height:2px;background:var(--border);margin:8px 0;"><div style="width:65%;height:2px;background:rgba(204,34,51,0.4);"></div></div></div>
+                <div class="wf-col" style="padding:12px;"><div style="font-size:28px;color:rgba(26,24,20,0.1);font-weight:800;">65</div><div class="wf-line full"></div><div class="wf-line med"></div></div>
+              </div>
+            </div>
+            <!-- Tag strip -->
+            <div class="wf-section" style="background:rgba(26,24,20,0.03);">
+              <span class="wf-section-tag">Tag Strip · 6-column grid</span>
+              <div style="display:flex;gap:6px;">
+                <div class="wf-solid" style="flex:1;height:28px;"><div class="wf-solid-label" style="font-size:8px;">HTML5</div></div>
+                <div class="wf-solid" style="flex:1;height:28px;"><div class="wf-solid-label" style="font-size:8px;">CSS3</div></div>
+                <div class="wf-solid" style="flex:1;height:28px;"><div class="wf-solid-label" style="font-size:8px;">C Lang</div></div>
+                <div class="wf-solid" style="flex:1;height:28px;"><div class="wf-solid-label" style="font-size:8px;">Resp.</div></div>
+                <div class="wf-solid" style="flex:1;height:28px;"><div class="wf-solid-label" style="font-size:8px;">Anim.</div></div>
+                <div class="wf-solid" style="flex:1;height:28px;"><div class="wf-solid-label" style="font-size:8px;">Logic</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="annotations-panel">
+        <div class="ann-card"><div class="ann-num">01 · Layout</div><div class="ann-title">Stacked Split Panels</div><div class="ann-desc">Each skill is a full-width row divided into 2 halves. Left = name + bar. Right = faded big number + topic list. Stack vertically on mobile.</div></div>
+        <div class="ann-card"><div class="ann-num">02 · Progress Bar</div><div class="ann-title">Animated Width</div><div class="ann-desc">Bar starts at <code>width: 0</code>. JavaScript <code>IntersectionObserver</code> triggers when you scroll to the panel — then sets the width from the <code>data-w</code> attribute.</div></div>
+        <div class="ann-card"><div class="ann-num">03 · Ghost Number</div><div class="ann-title">Decorative Watermark</div><div class="ann-desc">The big "80", "75", "65" numbers are real text with <code>opacity: 0.12</code>. Purely decorative — they sit behind the content and add depth.</div></div>
+      </div>
+    </div>
+
+    <!-- INTEREST.HTML -->
+    <div class="wf-panel" id="panel-interest">
+      <div class="canvas-area">
+        <div class="wf-window">
+          <div class="wf-titlebar">
+            <div class="wf-dots"><div class="wf-dot wd-red"></div><div class="wf-dot wd-yellow"></div><div class="wf-dot wd-green"></div></div>
+            <span>interest.html — Interests Page</span>
+            <span style="color:rgba(255,255,255,0.4)">browser</span>
+          </div>
+          <div class="wf-content">
+            <div class="wf-nav"><div class="wf-logo-box"><span>SP.</span></div><div class="wf-nav-links"><div class="wf-nl">Home</div><div class="wf-nl">About</div><div class="wf-nl">Skills</div><div class="wf-nl active-nl">Interests</div><div class="wf-nl">Contact</div></div></div>
+            <div class="wf-section" style="background:rgba(26,24,20,0.04);"><span class="wf-section-tag">Page Hero</span><div class="wf-heading wf-h1"></div><div class="wf-heading wf-h1" style="width:55%;"></div></div>
+            <!-- Tab bar -->
+            <div class="wf-section" style="background:rgba(26,24,20,0.02);padding:8px 16px;">
+              <span class="wf-section-tag">Sticky Tab Bar · position: sticky; top: 60px</span>
+              <div style="display:flex;gap:4px;">
+                <div style="padding:6px 14px;background:var(--ink);border-radius:1px;font-size:9px;color:#fff;letter-spacing:1px;">🎵 SINGING</div>
+                <div style="padding:6px 14px;border:1px solid var(--border);border-radius:1px;font-size:9px;color:var(--muted);letter-spacing:1px;">🎭 MIMICRY</div>
+                <div style="padding:6px 14px;border:1px solid var(--border);border-radius:1px;font-size:9px;color:var(--muted);letter-spacing:1px;">💻 CODING</div>
+              </div>
+            </div>
+            <!-- Active panel content -->
+            <div class="wf-section">
+              <span class="wf-section-tag">Active Interest Panel (Singing shown) · display:grid, 1fr 1fr</span>
+              <div class="wf-row">
+                <div class="wf-col" style="text-align:center;">
+                  <div style="font-size:50px;margin:10px 0;">🎵</div>
+                  <div style="font-size:9px;color:var(--muted);">Floating emoji<br/>CSS @keyframes animation<br/>Pulse rings behind it</div>
+                </div>
+                <div class="wf-col">
+                  <div class="wf-line tiny"></div>
+                  <div class="wf-heading wf-h2"></div>
+                  <div class="wf-line full"></div><div class="wf-line med"></div><div class="wf-line full"></div>
+                  <div style="border-left:3px solid var(--border2);padding-left:10px;margin:10px 0;">
+                    <div class="wf-line med" style="height:10px;background:rgba(26,24,20,0.15);"></div>
+                    <div class="wf-line tiny" style="margin-top:4px;"></div>
+                  </div>
+                  <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                    <div style="padding:4px 10px;border:1px solid var(--border);border-radius:99px;font-size:8px;color:var(--muted);">Folk</div>
+                    <div style="padding:4px 10px;border:1px solid var(--border);border-radius:99px;font-size:8px;color:var(--muted);">Bollywood</div>
+                    <div style="padding:4px 10px;border:1px solid var(--border);border-radius:99px;font-size:8px;color:var(--muted);">Events</div>
+                  </div>
+                  <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                    <div class="wf-solid" style="height:36px;"><div class="wf-solid-label" style="font-size:8px;">Card 1</div></div>
+                    <div class="wf-solid" style="height:36px;"><div class="wf-solid-label" style="font-size:8px;">Card 2</div></div>
+                    <div class="wf-solid" style="height:36px;"><div class="wf-solid-label" style="font-size:8px;">Card 3</div></div>
+                    <div class="wf-solid" style="height:36px;"><div class="wf-solid-label" style="font-size:8px;">Card 4</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="annotations-panel">
+        <div class="ann-card"><div class="ann-num">01 · Tabs</div><div class="ann-title">JavaScript Tab Switcher</div><div class="ann-desc">All 3 panels exist in HTML. JS hides them all with <code>display:none</code>, then shows only the clicked one. The sticky bar stays visible at the top while scrolling.</div></div>
+        <div class="ann-card"><div class="ann-num">02 · Emoji</div><div class="ann-title">Floating Animation</div><div class="ann-desc">The giant emoji uses <code>@keyframes emojiFloat</code> that moves it up 20px and rotates slightly. Each tab's emoji has a different <code>animation-delay</code> so they're offset.</div></div>
+        <div class="ann-card"><div class="ann-num">03 · Cards</div><div class="ann-title">2×2 Sub-Grid</div><div class="ann-desc">Inside each interest panel, a 4-card grid with <code>grid-template-columns: 1fr 1fr</code> shows details. Collapses to 1 column on small screens.</div></div>
+      </div>
+    </div>
+
+    <!-- CONTACT.HTML -->
+    <div class="wf-panel" id="panel-contact">
+      <div class="canvas-area">
+        <div class="wf-window">
+          <div class="wf-titlebar">
+            <div class="wf-dots"><div class="wf-dot wd-red"></div><div class="wf-dot wd-yellow"></div><div class="wf-dot wd-green"></div></div>
+            <span>contact.html — Contact Page</span>
+            <span style="color:rgba(255,255,255,0.4)">browser</span>
+          </div>
+          <div class="wf-content">
+            <div class="wf-nav"><div class="wf-logo-box"><span>SP.</span></div><div class="wf-nav-links"><div class="wf-nl">Home</div><div class="wf-nl">About</div><div class="wf-nl">Skills</div><div class="wf-nl">Interests</div><div class="wf-nl active-nl">Contact</div></div></div>
+            <!-- Full-height section with 2 cols -->
+            <div class="wf-section" style="min-height:280px;">
+              <span class="wf-section-tag">Full-Height Hero · grid 1fr 1.2fr</span>
+              <div class="wf-row" style="align-items:start;">
+                <!-- Left: info -->
+                <div class="wf-col">
+                  <div class="wf-heading wf-h1" style="margin-bottom:6px;"></div>
+                  <div class="wf-heading wf-h1" style="width:50%;margin-bottom:12px;"></div>
+                  <div class="wf-line med"></div><div class="wf-line short"></div>
+                  <!-- Detail items -->
+                  <div style="margin-top:12px;">
+                    <div style="display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+                      <div class="wf-solid" style="width:32px;height:32px;border-radius:2px;flex-shrink:0;"><div style="font-size:14px;">👤</div></div>
+                      <div><div class="wf-line" style="width:60px;height:5px;margin-bottom:3px;"></div><div class="wf-line" style="width:100px;height:7px;"></div></div>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+                      <div class="wf-solid" style="width:32px;height:32px;border-radius:2px;flex-shrink:0;"><div style="font-size:14px;">🏫</div></div>
+                      <div><div class="wf-line" style="width:50px;height:5px;margin-bottom:3px;"></div><div class="wf-line" style="width:110px;height:7px;"></div></div>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;padding:8px 0;">
+                      <div class="wf-solid" style="width:32px;height:32px;border-radius:2px;flex-shrink:0;"><div style="font-size:14px;">🎓</div></div>
+                      <div><div class="wf-line" style="width:55px;height:5px;margin-bottom:3px;"></div><div class="wf-line" style="width:95px;height:7px;"></div></div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Right: form card -->
+                <div class="wf-col">
+                  <div style="border:1px solid var(--border);border-radius:2px;padding:16px;background:rgba(34,85,204,0.02);">
+                    <div class="wf-heading wf-h3" style="width:50%;margin-bottom:12px;"></div>
+                    <div class="wf-row">
+                      <div class="wf-col"><div class="wf-label-above">Name</div><div class="wf-input"><div class="wf-input-label">Full name</div></div></div>
+                      <div class="wf-col"><div class="wf-label-above">Email</div><div class="wf-input"><div class="wf-input-label">Email</div></div></div>
+                    </div>
+                    <div class="wf-label-above">Subject</div>
+                    <div class="wf-input"><div class="wf-input-label">Subject</div></div>
+                    <div class="wf-label-above">Message</div>
+                    <div class="wf-input" style="height:50px;align-items:flex-start;padding-top:6px;"><div class="wf-input-label">Message text…</div></div>
+                    <div class="wf-btn filled" style="width:100%;margin-top:4px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="annotations-panel">
+        <div class="ann-card"><div class="ann-num">01 · Layout</div><div class="ann-title">Asymmetric Grid</div><div class="ann-desc"><code>grid-template-columns: 1fr 1.2fr</code> — the form gets slightly more width than the info column. The whole section is full-height like the home hero.</div></div>
+        <div class="ann-card"><div class="ann-num">02 · Form</div><div class="ann-title">Native HTML Validation</div><div class="ann-desc"><code>type="email"</code> and <code>required</code> on inputs mean the browser validates before submitting. No JavaScript needed for basic validation.</div></div>
+        <div class="ann-card"><div class="ann-num">03 · Submit</div><div class="ann-title">JS Swap on Success</div><div class="ann-desc"><code>e.preventDefault()</code> stops page reload. Then JS hides the <code>&lt;form&gt;</code> and shows the success card — creating a seamless in-page response.</div></div>
+      </div>
+    </div>
+
+    <!-- MAINFRAME.HTML -->
+    <div class="wf-panel" id="panel-mainframe">
+      <div class="canvas-area">
+        <div class="wf-window">
+          <div class="wf-titlebar">
+            <div class="wf-dots"><div class="wf-dot wd-red"></div><div class="wf-dot wd-yellow"></div><div class="wf-dot wd-green"></div></div>
+            <span>mainframe.html — Dashboard Page</span>
+            <span style="color:rgba(255,255,255,0.4)">browser</span>
+          </div>
+          <div class="wf-content">
+            <!-- Dark nav -->
+            <div class="wf-nav" style="background:rgba(26,24,20,0.08);"><div class="wf-logo-box"><span>SP//</span></div><div class="wf-nav-links"><div class="wf-nl">Home</div><div class="wf-nl">Mainframe</div></div><div style="height:16px;width:80px;background:rgba(26,24,20,0.1);border-radius:99px;"></div></div>
+            <!-- Top bar -->
+            <div class="wf-section" style="background:rgba(26,24,20,0.03);">
+              <span class="wf-section-tag">System Top Bar · live clock + status pill</span>
+              <div class="wf-row" style="justify-content:space-between;align-items:center;">
+                <div style="display:flex;align-items:center;gap:8px;"><div style="width:6px;height:6px;border-radius:50%;background:var(--green);"></div><div><div class="wf-line" style="width:60px;height:5px;margin-bottom:3px;"></div><div class="wf-line" style="width:100px;height:7px;"></div></div></div>
+                <div style="display:flex;align-items:center;gap:10px;"><div style="border:1px solid var(--border);border-radius:99px;padding:3px 10px;font-size:9px;color:var(--muted);">● All systems active</div><div style="font-size:16px;font-weight:300;letter-spacing:2px;color:var(--ink2);">00:00:00</div></div>
+              </div>
+            </div>
+            <!-- Dashboard grid -->
+            <div class="wf-section">
+              <span class="wf-section-tag">Dashboard · grid-template-columns: 300px 1fr 220px</span>
+              <div style="display:grid;grid-template-columns:140px 1fr 90px;gap:6px;">
+                <!-- Profile -->
+                <div style="grid-row:1/3;border:1px solid var(--border);border-radius:2px;padding:10px;">
+                  <div class="wf-block" style="height:70px;margin-bottom:6px;"><div class="wf-block-label" style="font-size:8px;">Photo</div></div>
+                  <div class="wf-line med" style="height:8px;margin-bottom:4px;"></div>
+                  <div class="wf-line short" style="height:5px;margin-bottom:8px;"></div>
+                  <div style="border-top:1px solid var(--border);padding-top:6px;">
+                    <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border);"><div class="wf-line" style="width:30%;height:5px;"></div><div class="wf-line" style="width:40%;height:5px;"></div></div>
+                    <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border);"><div class="wf-line" style="width:30%;height:5px;"></div><div class="wf-line" style="width:40%;height:5px;"></div></div>
+                    <div style="display:flex;justify-content:space-between;padding:3px 0;"><div class="wf-line" style="width:30%;height:5px;"></div><div class="wf-line" style="width:40%;height:5px;"></div></div>
+                  </div>
+                </div>
+                <!-- Terminal -->
+                <div style="border:1px solid var(--border);border-radius:2px;padding:10px;background:rgba(26,24,20,0.02);">
+                  <div style="font-size:9px;color:var(--muted);margin-bottom:6px;">terminal.sh</div>
+                  <div style="font-size:9px;color:var(--green);">samyam@cs427:~$ <span style="color:var(--ink2);">whoami</span></div>
+                  <div style="font-size:9px;color:var(--muted);padding-left:10px;">samyam_pokharel</div>
+                  <div style="font-size:9px;color:var(--green);">samyam@cs427:~$ <span style="color:var(--ink2);">ls skills/</span></div>
+                  <div style="font-size:9px;color:var(--blue);padding-left:10px;">html5.mod css3.mod c_lang.mod</div>
+                  <div style="font-size:9px;color:var(--green);">samyam@cs427:~$ <span style="display:inline-block;width:6px;height:10px;background:var(--green);vertical-align:middle;"></span></div>
+                </div>
+                <!-- Stats -->
+                <div style="border:1px solid var(--border);border-radius:2px;padding:10px;">
+                  <div style="font-size:9px;color:var(--muted);margin-bottom:8px;">metrics.sys</div>
+                  <div style="font-size:24px;font-weight:800;color:var(--green);line-height:1;">11</div><div style="font-size:8px;color:var(--muted);margin-bottom:8px;">grade</div>
+                  <div style="font-size:24px;font-weight:800;color:var(--blue);line-height:1;">3</div><div style="font-size:8px;color:var(--muted);margin-bottom:8px;">skills</div>
+                  <div style="font-size:24px;font-weight:800;color:var(--red);line-height:1;">3</div><div style="font-size:8px;color:var(--muted);">interests</div>
+                </div>
+                <!-- Skills -->
+                <div style="border:1px solid var(--border);border-radius:2px;padding:10px;grid-column:2;">
+                  <div style="font-size:9px;color:var(--muted);margin-bottom:8px;">skills.log</div>
+                  <div style="margin-bottom:6px;"><div style="display:flex;justify-content:space-between;font-size:8px;margin-bottom:3px;"><span>HTML</span><span style="color:var(--green);">80%</span></div><div style="height:2px;background:var(--border);"><div style="width:80%;height:2px;background:var(--green);"></div></div></div>
+                  <div style="margin-bottom:6px;"><div style="display:flex;justify-content:space-between;font-size:8px;margin-bottom:3px;"><span>CSS</span><span style="color:var(--blue);">75%</span></div><div style="height:2px;background:var(--border);"><div style="width:75%;height:2px;background:var(--blue);"></div></div></div>
+                  <div><div style="display:flex;justify-content:space-between;font-size:8px;margin-bottom:3px;"><span>C</span><span style="color:var(--red);">65%</span></div><div style="height:2px;background:var(--border);"><div style="width:65%;height:2px;background:var(--red);"></div></div></div>
+                </div>
+              </div>
+            </div>
+            <!-- Quick launch -->
+            <div class="wf-section">
+              <span class="wf-section-tag">Quick Launch · 6-column grid of cards</span>
+              <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:4px;">
+                <div class="wf-solid" style="height:40px;border-radius:2px;"><div class="wf-solid-label" style="font-size:8px;">🏠 Home</div></div>
+                <div class="wf-solid" style="height:40px;border-radius:2px;"><div class="wf-solid-label" style="font-size:8px;">👤 About</div></div>
+                <div class="wf-solid" style="height:40px;border-radius:2px;"><div class="wf-solid-label" style="font-size:8px;">⚙️ Skills</div></div>
+                <div class="wf-solid" style="height:40px;border-radius:2px;"><div class="wf-solid-label" style="font-size:8px;">🎵 Interests</div></div>
+                <div class="wf-solid" style="height:40px;border-radius:2px;"><div class="wf-solid-label" style="font-size:8px;">✉️ Contact</div></div>
+                <div class="wf-solid" style="height:40px;border-radius:2px;"><div class="wf-solid-label" style="font-size:8px;">📄 Cover</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="annotations-panel">
+        <div class="ann-card"><div class="ann-num">01 · Grid</div><div class="ann-title">3-Column Dashboard</div><div class="ann-desc"><code>grid-template-columns: 300px 1fr 220px</code> — fixed sidebar, flexible center, fixed stats column. Profile panel spans 2 rows with <code>grid-row: 1/3</code>.</div></div>
+        <div class="ann-card"><div class="ann-num">02 · Clock</div><div class="ann-title">Live JavaScript Clock</div><div class="ann-desc"><code>setInterval(tick, 1000)</code> calls the tick function every 1000ms (1 second). Each call reads <code>new Date()</code> and updates the DOM text with the current time.</div></div>
+        <div class="ann-card"><div class="ann-num">03 · Terminal</div><div class="ann-title">Typewriter Effect</div><div class="ann-desc">Lines array + recursive <code>setTimeout</code>. Each call appends the next line to the terminal div with a delay of 600ms for commands and 80ms for output lines.</div></div>
+      </div>
+    </div>
+
+    <!-- COVER.HTML -->
+    <div class="wf-panel" id="panel-cover">
+      <div class="canvas-area">
+        <div class="wf-window">
+          <div class="wf-titlebar">
+            <div class="wf-dots"><div class="wf-dot wd-red"></div><div class="wf-dot wd-yellow"></div><div class="wf-dot wd-green"></div></div>
+            <span>cover.html — Assignment Cover Page</span>
+            <span style="color:rgba(255,255,255,0.4)">A4 sheet: 210mm × 297mm</span>
+          </div>
+          <div class="wf-content">
+            <!-- Rainbow bar -->
+            <div style="height:6px;background:linear-gradient(90deg,#c8f135,#35f1e8,#f13579,#c8f135);background-size:200%;animation:barShift 4s linear infinite;"></div>
+            <style>@keyframes barShift{0%{background-position:0%}100%{background-position:200%}}</style>
+            <!-- Header -->
+            <div style="display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);background:rgba(26,24,20,0.02);">
+              <div class="wf-line" style="width:130px;height:8px;"></div>
+              <div class="wf-line" style="width:120px;height:8px;"></div>
+            </div>
+            <!-- Logos -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="font-size:20px;font-weight:800;letter-spacing:-1px;"><span style="color:#f5a623;">K</span><span style="color:#2563eb;">A</span><span style="color:#16a34a;">V</span><span style="color:#f59e0b;">Y</span><span style="color:#dc2626;">A</span></div>
+                <div style="width:1.5px;height:28px;background:var(--border);"></div>
+                <div style="background:#4ade80;border-radius:4px;padding:3px 8px;font-size:12px;font-weight:800;color:#fff;">ing®</div>
+              </div>
+              <div style="font-size:9px;color:var(--muted);text-align:center;"><div style="font-size:16px;">👨‍🏫</div>My Second Teacher</div>
+            </div>
+            <div style="text-align:center;font-size:10px;color:var(--muted);padding:2px 0 8px;border-bottom:1px solid var(--border);">काव्य ✡ स्कूल</div>
+            <!-- Title block -->
+            <div style="text-align:center;padding:12px 16px;border-bottom:1px solid var(--border);">
+              <div class="wf-line" style="width:200px;height:12px;margin:0 auto 6px;"></div>
+              <div class="wf-line" style="width:160px;height:9px;margin:0 auto 6px;"></div>
+              <div style="display:inline-block;background:var(--ink);border-radius:99px;padding:3px 14px;"><div class="wf-line" style="width:60px;height:7px;margin:0;background:rgba(255,255,255,0.3);"></div></div>
+            </div>
+            <!-- Year -->
+            <div style="text-align:center;padding:8px;border-bottom:1px solid var(--border);"><div class="wf-line" style="width:80px;height:8px;margin:0 auto;"></div></div>
+            <!-- Photo + Fields -->
+            <div style="display:flex;gap:14px;padding:12px 16px;border-bottom:1px solid var(--border);">
+              <div>
+                <div class="wf-block" style="width:80px;height:100px;"><div class="wf-block-label" style="font-size:8px;">Photo<br/>&lt;img&gt;</div></div>
+              </div>
+              <div style="flex:1;">
+                <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:7px;"><div class="wf-line" style="width:110px;height:7px;flex-shrink:0;"></div><div style="flex:1;border-bottom:1.5px solid var(--ink);"></div></div>
+                <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:7px;"><div class="wf-line" style="width:60px;height:7px;flex-shrink:0;"></div><div style="flex:1;border-bottom:1.5px solid var(--ink);"></div></div>
+                <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:7px;"><div class="wf-line" style="width:70px;height:7px;flex-shrink:0;"></div><div style="flex:1;border-bottom:1.5px solid var(--ink);"></div></div>
+                <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:7px;"><div class="wf-line" style="width:90px;height:7px;flex-shrink:0;"></div><div style="flex:1;border-bottom:1.5px solid var(--ink);"></div></div>
+                <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:7px;"><div class="wf-line" style="width:120px;height:7px;flex-shrink:0;"></div><div style="flex:1;border-bottom:1.5px solid var(--ink);"></div></div>
+              </div>
+            </div>
+            <!-- Declaration -->
+            <div style="padding:10px 16px;border-bottom:1px solid var(--border);">
+              <div class="wf-line full" style="height:6px;margin-bottom:4px;"></div>
+              <div class="wf-line med" style="height:6px;"></div>
+            </div>
+            <!-- Bottom bar -->
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:rgba(26,24,20,0.03);">
+              <div class="wf-line" style="width:100px;height:6px;"></div>
+              <div class="wf-btn filled" style="height:22px;padding:0 12px;"><span style="font-size:8px;color:transparent;">Enter →</span></div>
+            </div>
+            <div style="height:4px;background:linear-gradient(90deg,#c8f135,#35f1e8);"></div>
+          </div>
+        </div>
+      </div>
+      <div class="annotations-panel">
+        <div class="ann-card"><div class="ann-num">01 · Size</div><div class="ann-title">Real A4 Dimensions</div><div class="ann-desc"><code>width: 210mm; min-height: 297mm</code> — these are exact millimetre measurements, same as a physical A4 sheet. Displays at screen resolution but prints correctly.</div></div>
+        <div class="ann-card"><div class="ann-num">02 · Photo</div><div class="ann-title">The &lt;img&gt; Tag</div><div class="ann-desc"><code>&lt;img src="photo.jpg" onerror="..."&gt;</code> — loads your photo file. If the file is missing, the <code>onerror</code> attribute shows a placeholder box instead of a broken icon.</div></div>
+        <div class="ann-card"><div class="ann-num">03 · Bar</div><div class="ann-title">Animated Gradient</div><div class="ann-desc">The rainbow top bar uses <code>background-size: 200%</code> and <code>@keyframes</code> to shift the gradient position — making it appear to scroll continuously.</div></div>
+      </div>
+    </div>
+
+    <!-- WIREFRAME SELF -->
+    <div class="wf-panel" id="panel-wireframe">
+      <div class="canvas-area" style="text-align:center;display:flex;align-items:center;justify-content:center;min-height:300px;">
+        <div>
+          <div style="font-size:48px;margin-bottom:16px;">📐</div>
+          <div class="ph-tag" style="text-align:center;">You are currently viewing this page</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-1px;margin:8px 0;">wireframe.html</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.7;max-width:400px;margin:0 auto;">
+            This page itself is the wireframe documentation tool.<br/>
+            It shows the layout skeleton of every other page in the portfolio — annotated with how each section is built.
+          </div>
+          <div style="margin-top:20px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+            <div style="padding:6px 16px;border:1px solid var(--border);border-radius:2px;font-size:10px;color:var(--muted);">Drafting paper BG</div>
+            <div style="padding:6px 16px;border:1px solid var(--border);border-radius:2px;font-size:10px;color:var(--muted);">Page tab switcher</div>
+            <div style="padding:6px 16px;border:1px solid var(--border);border-radius:2px;font-size:10px;color:var(--muted);">Overview grid</div>
+            <div style="padding:6px 16px;border:1px solid var(--border);border-radius:2px;font-size:10px;color:var(--muted);">Browser window mock</div>
+            <div style="padding:6px 16px;border:1px solid var(--border);border-radius:2px;font-size:10px;color:var(--muted);">Annotation cards</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- .wrapper -->
+
+  <footer>
+    <span>© 2026 Samyam Pokharel · CS427 · Kavya School · wireframe.html</span>
+    <div style="display:flex;gap:20px;">
+      <a href="mainframe.html">Mainframe</a>
+      <a href="index.html">Portfolio</a>
+      <a href="cover.html">Cover Page</a>
+    </div>
+  </footer>
+
+  <script>
+    /* Nav */
+    window.addEventListener('scroll', () =>
+      document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 30));
+    document.getElementById('hamburger').addEventListener('click', () =>
+      document.getElementById('navLinks').classList.toggle('open'));
+
+    /* Tab switcher */
+    function switchTab(name) {
+      document.querySelectorAll('.wf-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === name);
+      });
+      document.getElementById('panel-' + name).classList.add('active');
+      // Scroll canvas into view smoothly
+      document.querySelector('.page-tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  </script>
+</body>
+</html>

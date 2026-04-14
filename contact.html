@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — Samyam Pokharel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--night:#050508;--deep:#0a0a10;--card:#0f0f18;--rim:#1c1c2e;--lime:#c8f135;--cyan:#35f1e8;--rose:#f13579;--white:#f0eff5;--muted:#6b6b80;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--night);color:var(--white);font-family:'Syne',sans-serif;overflow-x:hidden;cursor:none;}
+    ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--lime);}
+    #cursor{position:fixed;width:12px;height:12px;background:var(--lime);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:exclusion;transition:width .2s,height .2s;}
+    #cursor-ring{position:fixed;width:40px;height:40px;border:1.5px solid var(--lime);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:exclusion;transition:transform .18s ease,width .25s,height .25s;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:22px 5vw;transition:background .4s,padding .3s;}
+    nav.scrolled{background:rgba(5,5,8,.88);backdrop-filter:blur(18px);padding:14px 5vw;border-bottom:1px solid rgba(200,241,53,.12);}
+    .logo{font-size:18px;font-weight:800;color:var(--white);text-decoration:none;letter-spacing:-.5px;}.logo span{color:var(--lime);}
+    .nav-links{display:flex;gap:4px;list-style:none;}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 14px;border-radius:2px;transition:color .2s,background .2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--lime);background:rgba(200,241,53,.06);}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:none;}
+    .hamburger span{display:block;width:26px;height:2px;background:var(--white);}
+
+    /* HERO */
+    .contact-hero{
+      min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+      padding:120px 5vw 80px;
+      position:relative;overflow:hidden;
+      background:var(--deep);
+    }
+    .contact-hero::before{
+      content:'HELLO';
+      position:absolute;right:-60px;top:50%;transform:translateY(-50%);
+      font-size:clamp(120px,22vw,320px);font-weight:800;
+      color:rgba(200,241,53,.03);line-height:1;pointer-events:none;letter-spacing:-15px;
+    }
+    /* Orbs */
+    .orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(90px);opacity:.12;}
+    .orb-a{width:500px;height:500px;background:var(--lime);top:-150px;right:-150px;animation:driftA 14s ease-in-out infinite;}
+    .orb-b{width:350px;height:350px;background:var(--rose);bottom:-100px;left:-100px;animation:driftB 11s ease-in-out infinite;}
+    @keyframes driftA{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,40px)}}
+    @keyframes driftB{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-40px)}}
+
+    .ch-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;max-width:1200px;}
+
+    /* Left column */
+    .ch-left{}
+    .ch-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--lime);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;display:block;}
+    .ch-title{font-size:clamp(50px,8vw,100px);font-weight:800;line-height:.9;letter-spacing:-3px;margin-bottom:24px;}
+    .ch-title em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--lime);}
+    .ch-desc{font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:44px;max-width:400px;}
+
+    /* Details */
+    .detail-item{
+      display:flex;gap:16px;align-items:flex-start;
+      padding:18px 0;border-bottom:1px solid var(--rim);
+    }
+    .detail-item:first-child{border-top:1px solid var(--rim);}
+    .di-icon{
+      width:46px;height:46px;background:var(--card);border:1px solid var(--rim);
+      border-radius:2px;display:flex;align-items:center;justify-content:center;
+      font-size:22px;flex-shrink:0;transition:border-color .2s;
+    }
+    .detail-item:hover .di-icon{border-color:rgba(200,241,53,.4);}
+    .di-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+    .di-val{font-size:15px;font-weight:700;color:var(--white);}
+
+    /* Right: Form */
+    .form-card{
+      background:var(--card);border:1px solid var(--rim);border-radius:3px;
+      padding:48px 44px;
+      box-shadow:0 0 60px rgba(200,241,53,.04), 0 0 0 1px rgba(200,241,53,.06);
+    }
+    .form-header{margin-bottom:32px;}
+    .form-header h3{font-size:24px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px;}
+    .form-header p{font-size:14px;color:var(--muted);}
+
+    .fg{margin-bottom:18px;}
+    .fg label{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+    .fg input,.fg textarea{
+      width:100%;background:var(--deep);border:1px solid var(--rim);
+      border-radius:2px;padding:13px 16px;
+      font-family:'Syne',sans-serif;font-size:15px;color:var(--white);
+      outline:none;transition:border-color .2s,box-shadow .2s;
+    }
+    .fg input::placeholder,.fg textarea::placeholder{color:var(--muted);}
+    .fg input:focus,.fg textarea:focus{border-color:var(--lime);box-shadow:0 0 0 3px rgba(200,241,53,.07);}
+    .fg textarea{height:120px;resize:vertical;}
+    .fg-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+    .submit-btn{
+      width:100%;padding:16px;
+      background:var(--lime);color:var(--night);
+      font-family:'Syne',sans-serif;font-weight:800;font-size:14px;
+      letter-spacing:1px;text-transform:uppercase;
+      border:none;border-radius:2px;cursor:none;
+      transition:transform .2s,box-shadow .2s;
+    }
+    .submit-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(200,241,53,.25);}
+
+    .success-card{
+      display:none;text-align:center;padding:60px 20px;
+    }
+    .success-card .s-icon{font-size:64px;margin-bottom:20px;display:block;animation:bounce .6s ease both;}
+    @keyframes bounce{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+    .success-card h4{font-size:28px;font-weight:800;letter-spacing:-1px;margin-bottom:10px;}
+    .success-card p{color:var(--muted);font-size:15px;}
+    .success-card .s-code{
+      font-family:'JetBrains Mono',monospace;font-size:13px;
+      color:var(--lime);margin-top:20px;
+      background:var(--deep);padding:12px 20px;border-radius:2px;border:1px solid var(--rim);
+    }
+
+    footer{background:var(--deep);border-top:1px solid var(--rim);padding:28px 5vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);}
+    footer a{color:var(--lime);text-decoration:none;}
+
+    @media(max-width:900px){.ch-inner{grid-template-columns:1fr;gap:60px;}.fg-row{grid-template-columns:1fr;}.form-card{padding:32px 24px;}}
+    @media(max-width:768px){.nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(5,5,8,.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--rim);padding:10px 0;}.nav-links.open{display:flex;}.nav-links a{padding:14px 5vw;}.hamburger{display:flex;}body{cursor:auto;}#cursor,#cursor-ring{display:none;}}
+  </style>
+</head>
+<body>
+  <div id="cursor"></div><div id="cursor-ring"></div>
+
+  <nav id="mainNav">
+    <a class="logo" href="index.html">SP<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="interest.html">Interests</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <section class="contact-hero">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="ch-inner">
+
+      <!-- LEFT INFO -->
+      <div>
+        <span class="ch-num">04 — Contact</span>
+        <h1 class="ch-title">Let's<br/><em>Talk.</em></h1>
+        <p class="ch-desc">Whether it's feedback, a project idea, or just a friendly hello — I'd love to hear from you.</p>
+
+        <div class="detail-item">
+          <div class="di-icon">👤</div>
+          <div><div class="di-lbl">Student</div><div class="di-val">Samyam Pokharel</div></div>
+        </div>
+        <div class="detail-item">
+          <div class="di-icon">🏫</div>
+          <div><div class="di-lbl">Section</div><div class="di-val">Grade 11 · Surma Sarovar</div></div>
+        </div>
+        <div class="detail-item">
+          <div class="di-icon">🪪</div>
+          <div><div class="di-lbl">School ID</div><div class="di-val">000468442</div></div>
+        </div>
+        <div class="detail-item">
+          <div class="di-icon">🔢</div>
+          <div><div class="di-lbl">Symbol No.</div><div class="di-val">25694275</div></div>
+        </div>
+        <div class="detail-item">
+          <div class="di-icon">🎓</div>
+          <div><div class="di-lbl">Submitted To</div><div class="di-val">Pujan Thapa Magar</div></div>
+        </div>
+        <div class="detail-item">
+          <div class="di-icon">📅</div>
+          <div><div class="di-lbl">Deadline</div><div class="di-val">14th April, 2026</div></div>
+        </div>
+
+        <div style="margin-top:36px;">
+          <a href="cover.html" style="display:inline-block;padding:13px 28px;border:1px solid var(--rim);border-radius:2px;color:var(--muted);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;text-transform:uppercase;transition:border-color .2s,color .2s;">
+            View Cover Page →
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT FORM -->
+      <div class="form-card">
+        <div class="form-header">
+          <h3>Send a Message</h3>
+          <p>Fill the form and I'll get back to you.</p>
+        </div>
+        <form id="contactForm" onsubmit="submitForm(event)">
+          <div class="fg-row">
+            <div class="fg"><label>Name</label><input type="text" placeholder="Your full name" required/></div>
+            <div class="fg"><label>Email</label><input type="email" placeholder="you@email.com" required/></div>
+          </div>
+          <div class="fg"><label>Subject</label><input type="text" placeholder="What's this about?" required/></div>
+          <div class="fg"><label>Message</label><textarea placeholder="Write your message here..." required></textarea></div>
+          <button class="submit-btn" type="submit">Send Message ↗</button>
+        </form>
+        <div class="success-card" id="successCard">
+          <span class="s-icon">🎉</span>
+          <h4>Message Sent!</h4>
+          <p>Thank you for reaching out. I'll reply soon.</p>
+          <div class="s-code">// status: message_delivered ✓</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 <span style="color:var(--lime)">Samyam Pokharel</span> · CS427 · Submitted to Pujan Thapa Magar</span>
+    <a href="cover.html">← Cover Page</a>
+  </footer>
+
+  <script>
+    const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+    document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},60);});
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.width='20px';cur.style.height='20px';ring.style.width='60px';ring.style.height='60px';});el.addEventListener('mouseleave',()=>{cur.style.width='12px';cur.style.height='12px';ring.style.width='40px';ring.style.height='40px';});});
+    const nav=document.getElementById('mainNav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>50));
+    document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+    function submitForm(e){
+      e.preventDefault();
+      document.getElementById('contactForm').style.display='none';
+      document.getElementById('successCard').style.display='block';
+    }
+  </script>
+</body>
+</html>

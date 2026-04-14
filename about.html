@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — Samyam Pokharel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <link href="skills.html" rel="stylesheet"/>
+  <link href="interest.html" rel="stylesheet"/>
+  <link href="contact.html" rel="stylesheet"/>
+  <link href="wireframe.html" rel="stylesheet"/>
+  <style>
+    :root {
+      --night:#050508;--deep:#0a0a10;--card:#0f0f18;--rim:#1c1c2e;
+      --lime:#c8f135;--cyan:#35f1e8;--rose:#f13579;--white:#f0eff5;--muted:#6b6b80;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--night);color:var(--white);font-family:'Syne',sans-serif;overflow-x:hidden;cursor:none;}
+    ::-webkit-scrollbar{width:3px;} ::-webkit-scrollbar-thumb{background:var(--lime);}
+    #cursor{position:fixed;width:12px;height:12px;background:var(--lime);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:exclusion;transition:width .2s,height .2s;}
+    #cursor-ring{position:fixed;width:40px;height:40px;border:1.5px solid var(--lime);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:exclusion;transition:transform .18s ease,width .25s,height .25s;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:22px 5vw;transition:background .4s,padding .3s;}
+    nav.scrolled{background:rgba(5,5,8,.88);backdrop-filter:blur(18px);padding:14px 5vw;border-bottom:1px solid rgba(200,241,53,.12);}
+    .logo{font-size:18px;font-weight:800;color:var(--white);text-decoration:none;letter-spacing:-.5px;}
+    .logo span{color:var(--lime);}
+    .nav-links{display:flex;gap:4px;list-style:none;}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 14px;border-radius:2px;transition:color .2s,background .2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--lime);background:rgba(200,241,53,.06);}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:none;}
+    .hamburger span{display:block;width:26px;height:2px;background:var(--white);}
+
+    /* HERO */
+    .about-hero{
+      min-height: 55vh; display:flex; flex-direction:column; justify-content:flex-end;
+      padding:140px 5vw 70px;
+      background: var(--deep);
+      position:relative; overflow:hidden;
+    }
+    .about-hero::before{
+      content:'ABOUT';
+      position:absolute;right:-20px;top:50%;transform:translateY(-50%);
+      font-size:clamp(120px,18vw,240px);font-weight:800;color:rgba(255,255,255,.025);
+      line-height:1;pointer-events:none;letter-spacing:-10px;
+    }
+    .ah-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--lime);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;}
+    .ah-title{font-size:clamp(44px,7vw,90px);font-weight:800;line-height:.92;letter-spacing:-3px;}
+    .ah-title em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--lime);}
+
+    /* CONTENT */
+    .content-area{padding:80px 5vw;max-width:1200px;margin:0 auto;}
+
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+
+    /* Photo */
+    .ap-wrap{position:relative;}
+    .ap-wrap img{
+      width:100%;aspect-ratio:3/4;object-fit:cover;display:block;
+      border-radius:2px;
+      box-shadow: 0 0 0 1px var(--rim), 8px 8px 0 var(--lime);
+      filter:grayscale(15%) contrast(1.05);
+    }
+    .ap-caption{
+      position:absolute;bottom:-1px;left:0;right:0;
+      padding:20px;
+      background:linear-gradient(transparent,rgba(5,5,8,.9));
+    }
+    .ap-caption .name{font-size:20px;font-weight:800;letter-spacing:-.5px;}
+    .ap-caption .role{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--lime);letter-spacing:1.5px;margin-top:4px;}
+
+    /* Info blocks */
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:32px;}
+    .ig-block{
+      background:var(--card);border:1px solid var(--rim);
+      padding:20px 18px;
+    }
+    .ig-block:hover{border-color:rgba(200,241,53,.3);}
+    .ig-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+    .ig-val{font-size:15px;font-weight:700;color:var(--white);}
+
+    /* Text col */
+    .text-col h2{font-size:clamp(28px,3.5vw,42px);font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:28px;}
+    .text-col h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--lime);}
+    .text-col p{font-family:'Instrument Serif',serif;font-style:italic;font-size:19px;line-height:1.75;color:rgba(240,239,245,.7);margin-bottom:18px;}
+    .text-col p strong{color:var(--white);font-style:normal;font-family:'Syne',sans-serif;}
+
+    /* Quote */
+    .pull-quote{
+      border-left:3px solid var(--lime);padding:20px 24px;
+      background:var(--card);border-radius:0 2px 2px 0;
+      margin:32px 0;
+    }
+    .pull-quote p{font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;color:var(--white);line-height:1.5;}
+    .pull-quote cite{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:8px;display:block;}
+
+    /* Timeline */
+    .timeline{margin-top:36px;}
+    .timeline h3{font-size:16px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--lime);margin-bottom:20px;font-family:'JetBrains Mono',monospace;}
+    .tl-item{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--rim);}
+    .tl-item:last-child{border-bottom:none;}
+    .tl-year{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--lime);min-width:40px;padding-top:2px;}
+    .tl-body .tl-title{font-size:16px;font-weight:800;margin-bottom:4px;}
+    .tl-body .tl-desc{font-size:13px;color:var(--muted);line-height:1.6;}
+
+    /* Stat row */
+    .stat-row{display:flex;gap:0;margin:40px 0;border:1px solid var(--rim);}
+    .stat-box{flex:1;text-align:center;padding:28px;border-right:1px solid var(--rim);}
+    .stat-box:last-child{border-right:none;}
+    .stat-num{font-size:48px;font-weight:800;line-height:1;color:var(--lime);}
+    .stat-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:6px;}
+
+    /* BTN */
+    .btn-lime{padding:14px 32px;background:var(--lime);color:var(--night);font-family:'Syne',sans-serif;font-weight:800;font-size:13px;letter-spacing:1px;text-transform:uppercase;border:none;border-radius:2px;cursor:none;text-decoration:none;transition:transform .2s,box-shadow .2s;}
+    .btn-lime:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(200,241,53,.3);}
+    .btn-ghost{padding:14px 32px;background:transparent;color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;border:1px solid rgba(255,255,255,.15);border-radius:2px;cursor:none;text-decoration:none;transition:border-color .2s,color .2s;}
+    .btn-ghost:hover{border-color:var(--lime);color:var(--lime);}
+
+    footer{background:var(--deep);border-top:1px solid var(--rim);padding:28px 5vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);}
+    footer a{color:var(--lime);text-decoration:none;}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+
+    @media(max-width:900px){.two-col{grid-template-columns:1fr;gap:48px;}.info-grid{grid-template-columns:1fr;}.stat-row{flex-direction:column;}.stat-box{border-right:none;border-bottom:1px solid var(--rim);}}
+    @media(max-width:768px){.nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(5,5,8,.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--rim);padding:10px 0;}.nav-links.open{display:flex;}.nav-links a{padding:14px 5vw;}.hamburger{display:flex;}body{cursor:auto;}#cursor,#cursor-ring{display:none;}}
+  </style>
+</head>
+<body>
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <nav id="mainNav">
+    <a class="logo" href="index.html">SP<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="skills.html">Skills</a></li>
+      <li><a href="interest.html">Interests</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="about-hero">
+    <div class="ah-num">01 — About</div>
+    <h1 class="ah-title">Who <em>I Am</em><br/>Really.</h1>
+  </div>
+
+  <div class="content-area">
+
+    <!-- Stats row -->
+    <div class="stat-row reveal">
+      <div class="stat-box"><div class="stat-num">11</div><div class="stat-lbl">Grade</div></div>
+      <div class="stat-box"><div class="stat-num">3</div><div class="stat-lbl">Skills</div></div>
+      <div class="stat-box"><div class="stat-num">3</div><div class="stat-lbl">Interests</div></div>
+      <div class="stat-box"><div class="stat-num">∞</div><div class="stat-lbl">Curiosity</div></div>
+    </div>
+
+    <div class="two-col" style="margin-top:60px;">
+      <!-- Left: Photo -->
+      <div class="reveal">
+        <div class="ap-wrap">
+          <img src="portfolio.jpg" alt="Samyam Pokharel"
+               onerror="this.style.background='#1c1c2e';this.style.minHeight='400px'"/>
+          <div class="ap-caption">
+            <div class="name">Samyam Pokharel</div>
+            <div class="role">[ Grade 11 · CS Student ]</div>
+          </div>
+        </div>
+        <div class="info-grid" style="margin-top:16px;">
+          <div class="ig-block"><div class="ig-lbl">Section</div><div class="ig-val">Surma Sarovar</div></div>
+          <div class="ig-block"><div class="ig-lbl">School ID</div><div class="ig-val">000468442</div></div>
+          <div class="ig-block"><div class="ig-lbl">Symbol No.</div><div class="ig-val">25694275</div></div>
+          <div class="ig-block"><div class="ig-lbl">Teacher</div><div class="ig-val">Pujan Thapa Magar</div></div>
+        </div>
+      </div>
+
+      <!-- Right: Text -->
+      <div class="text-col reveal">
+        <h2>More Than<br/>Just a <em>Coder.</em></h2>
+        <p>Hi! I'm <strong>Samyam Pokharel</strong>, a Grade 11 Computer Science student from the <strong>Surma Sarovar</strong> section.</p>
+        <p>I'm fascinated by technology — how a few lines of code can create something real, something visual, something people actually use. This portfolio is a living example of that belief.</p>
+        <p>But I'm not only a coder. I'm a <strong>singer</strong> who finds stories in melodies, a <strong>mimicry</strong> who studies every voice around me, and someone who believes creativity has no single form.</p>
+
+        <div class="pull-quote">
+          <p>"Code is how I think. Music is how I feel. Mimicry is how I observe."</p>
+          <cite>— Samyam Pokharel</cite>
+        </div>
+
+        <div class="timeline">
+          <h3>Journey</h3>
+          <div class="tl-item">
+            <div class="tl-year">2024</div>
+            <div class="tl-body">
+              <div class="tl-title">First Web Page</div>
+              <div class="tl-desc">Learned HTML and CSS — built my first webpage from scratch and felt the magic of the browser.</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2025</div>
+            <div class="tl-body">
+              <div class="tl-title">Into C Programming</div>
+              <div class="tl-desc">Dove deep into logic — loops, arrays, functions — and started thinking like a computer.</div>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2026</div>
+            <div class="tl-body">
+              <div class="tl-title">This Portfolio</div>
+              <div class="tl-desc">CS427 Lab Work — designed and built this entire site as a showcase of everything I've learned.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:36px;">
+          <a class="btn-lime" href="skills.html">My Skills →</a>
+          <a class="btn-ghost" href="contact.html">Contact</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2026 Samyam Pokharel · CS427</span>
+    <a href="cover.html">← Cover Page</a>
+  </footer>
+
+  <script>
+    const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+    document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},60);});
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.width='20px';cur.style.height='20px';ring.style.width='60px';ring.style.height='60px';});el.addEventListener('mouseleave',()=>{cur.style.width='12px';cur.style.height='12px';ring.style.width='40px';ring.style.height='40px';});});
+    const nav=document.getElementById('mainNav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>50));
+    document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+    const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  </script>
+</body>
+</html>

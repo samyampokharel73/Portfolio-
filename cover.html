@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cover Page — Samyam Pokharel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --night: #050508; --deep: #0a0a10; --card: #0f0f18;
+      --rim: #1c1c2e; --lime: #c8f135; --cyan: #35f1e8;
+      --rose: #f13579; --white: #f0eff5; --muted: #6b6b80;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Syne', sans-serif;
+      background: #1a1a28;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .page {
+      width: 210mm; min-height: 297mm;
+      background: #fff;
+      box-shadow: 0 0 0 1px rgba(200,241,53,0.3), 0 30px 80px rgba(0,0,0,0.5);
+      display: flex; flex-direction: column;
+      position: relative; overflow: hidden;
+    }
+
+    /* TOP ACCENT BAR */
+    .top-bar {
+      height: 6px;
+      background: linear-gradient(90deg, var(--lime), var(--cyan), var(--rose), var(--lime));
+      background-size: 200%;
+      animation: barShift 4s linear infinite;
+    }
+    @keyframes barShift { 0%{background-position:0%} 100%{background-position:200%} }
+
+    /* HEADER */
+    .cover-header {
+      padding: 14px 20px 12px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid #e0e0e0;
+      background: #fafafa;
+    }
+    .cover-header .ch-left {
+      font-size: 11.5px; font-weight: 700; color: #333;
+      letter-spacing: 0.3px;
+    }
+    .cover-header .ch-right {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; color: #888; letter-spacing: 1px;
+    }
+
+    /* LOGO AREA */
+    .logo-area {
+      padding: 20px 24px 12px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .kavya-block { display: flex; align-items: center; gap: 0; }
+    .kavya-word {
+      font-size: 40px; font-weight: 800; line-height: 1; letter-spacing: -1px;
+    }
+    .k { color: #f5a623; } .a1 { color: #2563eb; } .v { color: #16a34a; }
+    .y { color: #f59e0b; } .a2 { color: #dc2626; }
+    .pipe-div { width: 1.5px; height: 46px; background: #ccc; margin: 0 18px; }
+    .ing-pill {
+      background: #4ade80; border-radius: 7px;
+      padding: 7px 16px; font-size: 22px; font-weight: 800;
+      color: #fff; letter-spacing: 1px;
+    }
+    .ing-pill sup { font-size: 9px; }
+    .mst-col { text-align: center; font-size: 10px; color: #666; line-height: 1.4; }
+    .mst-col .mst-face { font-size: 26px; display: block; margin-bottom: 3px; }
+    .mst-col strong { color: #e44d26; font-size: 11px; }
+
+    .deva { text-align: center; font-size: 12px; color: #888; padding: 4px 0 8px; letter-spacing: 0.5px; }
+
+    /* TITLE SECTION */
+    .title-block {
+      text-align: center; padding: 12px 24px 8px;
+      border-top: 1px solid #eee;
+    }
+    .title-block h1 { font-size: 18px; font-weight: 800; color: #111; letter-spacing: -0.3px; }
+    .title-block .sub { font-size: 15px; color: #333; margin-top: 5px; }
+    .title-block .lab {
+      display: inline-block; margin-top: 8px;
+      background: #111; color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; padding: 4px 14px; border-radius: 99px;
+      letter-spacing: 1px;
+    }
+
+    .sep { border: none; border-top: 1px solid #e8e8e8; margin: 0 24px; }
+
+    /* YEAR */
+    .year-row {
+      text-align: center; padding: 10px 0;
+      font-size: 14px; color: #444;
+    }
+    .year-row strong { color: #111; }
+
+    /* PHOTO + FIELDS LAYOUT */
+    .main-section {
+      display: flex; gap: 0; flex: 1;
+      padding: 16px 24px; align-items: flex-start;
+    }
+
+    /* Photo side */
+    .photo-col { width: 130px; flex-shrink: 0; margin-right: 24px; }
+    .photo-col img {
+      width: 120px; height: 145px;
+      object-fit: cover; display: block;
+      border: 2px solid #333; border-radius: 2px;
+    }
+    .photo-placeholder {
+      width: 120px; height: 145px;
+      border: 2px dashed #bbb; border-radius: 2px;
+      background: #f5f5f5;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-size: 11px; color: #aaa; text-align: center; gap: 6px;
+    }
+    .photo-placeholder span { font-size: 28px; }
+    .photo-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px; color: #999; letter-spacing: 1px;
+      text-transform: uppercase; text-align: center;
+      margin-top: 6px;
+    }
+
+    /* Fields side */
+    .fields-col { flex: 1; }
+    .field-item {
+      display: flex; align-items: baseline;
+      margin-bottom: 11px; font-size: 14.5px; color: #111;
+      gap: 0;
+    }
+    .field-item .fl { min-width: 190px; font-weight: 700; }
+    .field-item .fv {
+      flex: 1; border-bottom: 1.5px solid #222;
+      padding: 0 4px 1px; color: #1a4db8;
+      font-family: 'JetBrains Mono', monospace; font-size: 13px;
+      font-weight: 400; min-width: 100px;
+    }
+    /* Highlight due date */
+    .field-item.highlight .fv { color: #c0392b; font-weight: 700; }
+
+    /* DECLARATION */
+    .declaration {
+      margin: 8px 24px 0;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 10px;
+    }
+    .declaration p {
+      font-size: 11.5px; color: #555; line-height: 1.65;
+      font-style: italic; text-align: center;
+      font-family: 'Instrument Serif', serif;
+    }
+
+    /* BOTTOM BAR */
+    .bottom-bar {
+      margin-top: auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 24px;
+      background: #f9f9f9; border-top: 1px solid #eee;
+    }
+    .bb-left { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #aaa; letter-spacing: 0.5px; }
+    .enter-btn {
+      display: inline-block;
+      padding: 9px 22px; background: #111; color: #c8f135;
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+      border-radius: 2px; text-decoration: none; border: none;
+      transition: background 0.2s;
+    }
+    .enter-btn:hover { background: #c0392b; color: #fff; }
+
+    /* Bottom accent */
+    .bottom-accent {
+      height: 4px;
+      background: linear-gradient(90deg, var(--lime), var(--cyan));
+    }
+
+    @media (max-width: 700px) {
+      .page { width: 100%; min-height: unset; }
+      .main-section { flex-direction: column; }
+      .photo-col { margin-right: 0; margin-bottom: 16px; }
+    }
+    @media print {
+      body { background: #fff; }
+      .page { box-shadow: none; }
+      .enter-btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div class="top-bar"></div>
+
+    <!-- HEADER -->
+    <div class="cover-header">
+      <div class="ch-left">CS427 | Computer Science</div>
+      <div class="ch-right">PERSONAL PORTFOLIO WEBSITE</div>
+    </div>
+
+    <!-- LOGOS -->
+    <div class="logo-area">
+      <div class="kavya-block">
+        <div class="kavya-word">
+          <span class="k">K</span><span class="a1">A</span><span class="v">V</span><span class="y">Y</span><span class="a2">A</span>
+        </div>
+        <div class="pipe-div"></div>
+        <div class="ing-pill">ing<sup>®</sup></div>
+      </div>
+      <div class="mst-col">
+        <span class="mst-face">👨‍🏫</span>
+        My <strong>Second</strong> Teacher
+      </div>
+    </div>
+    <div class="deva">काव्य ✡ स्कूल &nbsp;|&nbsp; ॥ तमसोऽमा ज्योतिर्गमय: ॥</div>
+
+    <hr class="sep"/>
+
+    <!-- TITLE -->
+    <div class="title-block">
+      <h1>Grade 11 Computer Science</h1>
+      
+     
+    </div>
+
+    <hr class="sep" style="margin-top:10px"/>
+
+    <!-- YEAR -->
+    <div class="year-row">
+      Year and Month &nbsp;·&nbsp; <strong>2026 April</strong>
+    </div>
+
+    <hr class="sep"/>
+
+    <!-- PHOTO + FIELDS -->
+    <div class="main-section">
+
+      <!-- Photo -->
+      <div class="photo-col">
+        <!--
+          Place your photo file named "photo.jpg" in the same folder.
+          The img tag below will display it automatically.
+        -->
+        <img
+          src="photo.jpg"
+          alt="Samyam Pokharel — Student Photo"
+          onerror="this.outerHTML='<div class=\'photo-placeholder\'><span>📷</span>Student<br/>Photo<br/>Here</div>'"
+        />
+        <div class="photo-label">Student Photo</div>
+      </div>
+
+      <!-- Fields -->
+      <div class="fields-col">
+        <div class="field-item">
+          <span class="fl">Student Name:</span>
+          <span class="fv">Samyam Pokharel</span>
+        </div>
+        <div class="field-item">
+          <span class="fl">Section:</span>
+          <span class="fv">Surma Sarovar</span>
+        </div>
+        <div class="field-item">
+          <span class="fl">School ID:</span>
+          <span class="fv">000468442</span>
+        </div>
+        <div class="field-item">
+          <span class="fl">Symbol Number:</span>
+          <span class="fv">25694275</span>
+        </div>
+        <div class="field-item highlight">
+          <span class="fl">Assignment Due Date:</span>
+          <span class="fv">2nd April, 2026</span>
+        </div>
+        <div class="field-item highlight">
+          <span class="fl">Assignment Deadline:</span>
+          <span class="fv">14th April, 2026</span>
+        </div>
+        <div class="field-item">
+          <span class="fl">Submitted To:</span>
+          <span class="fv">Pujan Thapa Magar</span>
+        </div>
+        <div class="field-item">
+          <span class="fl">Assignment Submission Date:</span>
+          <span class="fv">&nbsp;</span>
+        </div>
+        <div class="field-item">
+          <span class="fl">Word Count:</span>
+          <span class="fv" style="min-width:50px">&nbsp;</span>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="sep"/>
+
+    <!-- DECLARATION -->
+    <div class="declaration">
+      <p>
+        I confirm that I understand my coursework needs to be submitted online via the MySecondTeacher platform
+        under the relevant module page before the deadline in order for my assignment to be accepted and marked.
+        I am fully aware that late submissions will be treated as non-submissions and a mark of zero will be awarded.
+      </p>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="bottom-bar">
+      <div class="bb-left">CS427 · KAVYA SCHOOL · 2026</div>
+      <a class="enter-btn" href="index.html">Enter Portfolio →</a>
+    </div>
+
+    <div class="bottom-accent"></div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skills — Samyam Pokharel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--night:#050508;--deep:#0a0a10;--card:#0f0f18;--rim:#1c1c2e;--lime:#c8f135;--cyan:#35f1e8;--rose:#f13579;--gold:#f1c135;--white:#f0eff5;--muted:#6b6b80;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--night);color:var(--white);font-family:'Syne',sans-serif;overflow-x:hidden;cursor:none;}
+    ::-webkit-scrollbar{width:3px;} ::-webkit-scrollbar-thumb{background:var(--lime);}
+    #cursor{position:fixed;width:12px;height:12px;background:var(--lime);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:exclusion;transition:width .2s,height .2s;}
+    #cursor-ring{position:fixed;width:40px;height:40px;border:1.5px solid var(--lime);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);mix-blend-mode:exclusion;transition:transform .18s ease,width .25s,height .25s;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:22px 5vw;transition:background .4s,padding .3s;}
+    nav.scrolled{background:rgba(5,5,8,.88);backdrop-filter:blur(18px);padding:14px 5vw;border-bottom:1px solid rgba(200,241,53,.12);}
+    .logo{font-size:18px;font-weight:800;color:var(--white);text-decoration:none;letter-spacing:-.5px;}.logo span{color:var(--lime);}
+    .nav-links{display:flex;gap:4px;list-style:none;}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 14px;border-radius:2px;transition:color .2s,background .2s;}
+    .nav-links a:hover,.nav-links a.active{color:var(--lime);background:rgba(200,241,53,.06);}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:none;}
+    .hamburger span{display:block;width:26px;height:2px;background:var(--white);}
+
+    /* HERO */
+    .page-hero{min-height:50vh;display:flex;flex-direction:column;justify-content:flex-end;padding:140px 5vw 70px;background:var(--deep);position:relative;overflow:hidden;}
+    .page-hero::before{content:'SKILLS';position:absolute;right:-20px;top:50%;transform:translateY(-50%);font-size:clamp(100px,16vw,200px);font-weight:800;color:rgba(255,255,255,.025);line-height:1;pointer-events:none;letter-spacing:-8px;}
+    .ph-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--lime);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;}
+    .ph-title{font-size:clamp(44px,7vw,90px);font-weight:800;line-height:.92;letter-spacing:-3px;}
+    .ph-title em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--lime);}
+
+    /* SKILLS LARGE */
+    .sec{padding:90px 5vw;max-width:1200px;margin:0 auto;}
+
+    .skill-mega {
+      display:grid; grid-template-columns: 1fr 1fr;
+      border:1px solid var(--rim); border-radius:3px;
+      overflow:hidden; margin-bottom:2px;
+      background:var(--card);
+      transition:border-color .3s;
+    }
+    .skill-mega:hover{border-color:rgba(200,241,53,.3);}
+    .skill-mega:nth-child(2){border-color:var(--rim);}
+    .skill-mega:nth-child(2):hover{border-color:rgba(53,241,232,.3);}
+    .skill-mega:nth-child(3):hover{border-color:rgba(241,53,121,.3);}
+
+    .sm-left{padding:50px 44px;border-right:1px solid var(--rim);}
+    .sm-right{padding:50px 44px;}
+
+    .sm-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;margin-bottom:20px;display:block;}
+    .sm-icon{font-size:64px;margin-bottom:20px;display:block;line-height:1;}
+    .sm-name{font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-1.5px;line-height:1;margin-bottom:16px;}
+    .sm-name .col-lime{color:var(--lime);}
+    .sm-name .col-cyan{color:var(--cyan);}
+    .sm-name .col-rose{color:var(--rose);}
+
+    .sm-pct-big{font-family:'JetBrains Mono',monospace;font-size:80px;font-weight:300;line-height:1;opacity:.12;}
+    .sm-pct-big.lime{color:var(--lime);}
+    .sm-pct-big.cyan{color:var(--cyan);}
+    .sm-pct-big.rose{color:var(--rose);}
+
+    .sm-desc{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:28px;}
+    .sm-bar-row{margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;}
+    .sm-bar-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;}
+    .sm-bar-pct{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--lime);font-weight:700;}
+    .col2 .sm-bar-pct{color:var(--cyan);}
+    .col3 .sm-bar-pct{color:var(--rose);}
+    .bar{background:var(--rim);height:3px;border-radius:0;margin-bottom:24px;}
+    .bar-fill{height:3px;width:0;background:var(--lime);transition:width 1.5s cubic-bezier(.22,1,.36,1);}
+    .col2 .bar-fill{background:var(--cyan);}
+    .col3 .bar-fill{background:var(--rose);}
+
+    /* Topic checklist */
+    .topics{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .topic-item{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+    .topic-item::before{content:'▸';color:var(--lime);font-size:10px;flex-shrink:0;}
+    .col2 .topic-item::before{color:var(--cyan);}
+    .col3 .topic-item::before{color:var(--rose);}
+
+    /* BOTTOM STRIP */
+    .skill-strip{
+      display:grid;grid-template-columns:repeat(6,1fr);gap:2px;
+      background:var(--deep);
+      margin-top:60px;border-top:1px solid var(--rim);
+    }
+    .strip-item{
+      padding:24px 20px;text-align:center;font-family:'JetBrains Mono',monospace;
+      font-size:11px;color:var(--muted);letter-spacing:1px;
+      border-right:1px solid var(--rim);
+      transition:background .2s,color .2s;
+    }
+    .strip-item:last-child{border-right:none;}
+    .strip-item:hover{background:var(--card);color:var(--lime);}
+    .strip-item .si-icon{font-size:22px;display:block;margin-bottom:8px;}
+
+    footer{background:var(--deep);border-top:1px solid var(--rim);padding:28px 5vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);}
+    footer a{color:var(--lime);text-decoration:none;}
+
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+
+    @media(max-width:900px){.skill-mega{grid-template-columns:1fr;}.sm-left{border-right:none;border-bottom:1px solid var(--rim);}.skill-strip{grid-template-columns:repeat(3,1fr);}.topics{grid-template-columns:1fr;}}
+    @media(max-width:768px){.nav-links{display:none;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(5,5,8,.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--rim);padding:10px 0;}.nav-links.open{display:flex;}.nav-links a{padding:14px 5vw;}.hamburger{display:flex;}body{cursor:auto;}#cursor,#cursor-ring{display:none;}}
+  </style>
+</head>
+<body>
+  <div id="cursor"></div><div id="cursor-ring"></div>
+
+  <nav id="mainNav">
+    <a class="logo" href="index.html">SP<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="skills.html" class="active">Skills</a></li>
+      <li><a href="interest.html">Interests</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="ph-num">02 — Skills</div>
+    <h1 class="ph-title">What I <em>Build</em><br/>With Code.</h1>
+  </div>
+
+  <div class="sec">
+
+    <!-- HTML -->
+    <div class="skill-mega reveal" data-bar="80">
+      <div class="sm-left">
+        <span class="sm-num">001 / 003</span>
+        <span class="sm-icon">🌐</span>
+        <div class="sm-name"><span class="col-lime">HTML</span></div>
+        <p class="sm-desc">The skeleton of every website. I structure content with clean, semantic HTML — making pages that are readable by humans and machines alike.</p>
+        <div class="sm-bar-row">
+          <span class="sm-bar-lbl">Proficiency</span>
+          <span class="sm-bar-pct">80%</span>
+        </div>
+        <div class="bar"><div class="bar-fill" data-w="80"></div></div>
+      </div>
+      <div class="sm-right">
+        <div class="sm-pct-big lime">80</div>
+        <div class="topics">
+          <div class="topic-item">Document structure</div>
+          <div class="topic-item">Headings &amp; paragraphs</div>
+          <div class="topic-item">Links &amp; navigation</div>
+          <div class="topic-item">Images &amp; img tag</div>
+          <div class="topic-item">HTML tables</div>
+          <div class="topic-item">Forms &amp; inputs</div>
+          <div class="topic-item">Lists (ul, ol, dl)</div>
+          <div class="topic-item">Semantic elements</div>
+          <div class="topic-item">Multimedia embed</div>
+          <div class="topic-item">Meta tags</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CSS -->
+    <div class="skill-mega reveal col2" data-bar="75">
+      <div class="sm-left">
+        <span class="sm-num">002 / 003</span>
+        <span class="sm-icon">🎨</span>
+        <div class="sm-name"><span class="col-cyan">CSS</span></div>
+        <p class="sm-desc">The visual layer. I craft beautiful layouts with Flexbox and Grid, bring pages to life with animations, and make them work on any screen size.</p>
+        <div class="sm-bar-row">
+          <span class="sm-bar-lbl">Proficiency</span>
+          <span class="sm-bar-pct" style="color:var(--cyan)">75%</span>
+        </div>
+        <div class="bar"><div class="bar-fill col2" data-w="75"></div></div>
+      </div>
+      <div class="sm-right col2">
+        <div class="sm-pct-big cyan">75</div>
+        <div class="topics col2">
+          <div class="topic-item">CSS selectors</div>
+          <div class="topic-item">Box model</div>
+          <div class="topic-item">Flexbox layout</div>
+          <div class="topic-item">CSS Grid</div>
+          <div class="topic-item">Colors &amp; gradients</div>
+          <div class="topic-item">Typography</div>
+          <div class="topic-item">Transitions</div>
+          <div class="topic-item">Animations</div>
+          <div class="topic-item">Media queries</div>
+          <div class="topic-item">CSS variables</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- C Programming -->
+    <div class="skill-mega reveal col3" data-bar="65">
+      <div class="sm-left">
+        <span class="sm-num">003 / 003</span>
+        <span class="sm-icon">⚙️</span>
+        <div class="sm-name"><span class="col-rose">C</span></div>
+        <p class="sm-desc">The foundation. C taught me how computers actually think — memory, logic, loops. It's the language where I learned to solve real problems step by step.</p>
+        <div class="sm-bar-row">
+          <span class="sm-bar-lbl">Proficiency</span>
+          <span class="sm-bar-pct" style="color:var(--rose)">65%</span>
+        </div>
+        <div class="bar"><div class="bar-fill col3" data-w="65"></div></div>
+      </div>
+      <div class="sm-right col3">
+        <div class="sm-pct-big rose">65</div>
+        <div class="topics col3">
+          <div class="topic-item">Variables &amp; data types</div>
+          <div class="topic-item">Operators</div>
+          <div class="topic-item">If-else statements</div>
+          <div class="topic-item">For &amp; while loops</div>
+          <div class="topic-item">Functions</div>
+          <div class="topic-item">Arrays</div>
+          <div class="topic-item">Strings</div>
+          <div class="topic-item">Pointers (intro)</div>
+          <div class="topic-item">printf / scanf</div>
+          <div class="topic-item">File basics</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tag strip -->
+    <div class="skill-strip reveal">
+      <div class="strip-item"><span class="si-icon">📄</span>HTML5</div>
+      <div class="strip-item"><span class="si-icon">🎨</span>CSS3</div>
+      <div class="strip-item"><span class="si-icon">⚙️</span>C Language</div>
+      <div class="strip-item"><span class="si-icon">📱</span>Responsive</div>
+      <div class="strip-item"><span class="si-icon">✨</span>Animations</div>
+      <div class="strip-item"><span class="si-icon">🧩</span>Logic</div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>© 2026 Samyam Pokharel · CS427</span>
+    <a href="cover.html">← Cover Page</a>
+  </footer>
+
+  <script>
+    const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+    document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';setTimeout(()=>{ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';},60);});
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.width='20px';cur.style.height='20px';ring.style.width='60px';ring.style.height='60px';});el.addEventListener('mouseleave',()=>{cur.style.width='12px';cur.style.height='12px';ring.style.width='40px';ring.style.height='40px';});});
+    const nav=document.getElementById('mainNav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>50));
+    document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+    const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');x.target.querySelectorAll('.bar-fill').forEach(b=>{b.style.width=b.dataset.w+'%';});}}),{threshold:.2});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  </script>
+</body>
+</html>
